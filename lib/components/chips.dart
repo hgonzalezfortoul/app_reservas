@@ -17,37 +17,42 @@ class _MisCustomChipsState extends State<MisCustomChips> {
     return StreamBuilder(
       stream: chipsBloc.listaCategoriaStream,
       builder: (BuildContext context, AsyncSnapshot<List<Categoria>> snapshot) {
-        return ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: snapshot.data.length,
-          padding: EdgeInsets.all(5),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: ChoiceChip(
-                pressElevation: 5,
-                labelPadding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                elevation: 3,
-                labelStyle: TextStyle(
-                    fontSize: 18,
-                    color: id == snapshot.data[index].id
-                        ? Colors.white
-                        : Colors.black87),
-                label: Text("${snapshot.data[index].label}"),
-                selected: (id == snapshot.data[index].id ? true : false),
-                selectedColor: Color.fromARGB(255, 100, 190, 255),
-                backgroundColor: Colors.white,
-                avatar: null,
-                onSelected: (e) {
-                  setState(() {
-                    id = snapshot.data[index].id;
-                  });
-                },
-              ),
-            );
-          },
-        );
+        if (snapshot.hasData) {
+          return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: snapshot.data.length,
+            padding: EdgeInsets.all(5),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: ChoiceChip(
+                  pressElevation: 5,
+                  labelPadding:
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  elevation: 3,
+                  labelStyle: TextStyle(
+                      fontSize: 18,
+                      color: id == snapshot.data[index].id
+                          ? Colors.white
+                          : Colors.black87),
+                  label: Text("${snapshot.data[index].label}"),
+                  selected: (id == snapshot.data[index].id ? true : false),
+                  selectedColor: Color.fromARGB(255, 100, 190, 255),
+                  backgroundColor: Colors.white,
+                  avatar: null,
+                  onSelected: (e) {
+                    setState(() {
+                      id = snapshot.data[index].id;
+                    });
+                  },
+                ),
+              );
+            },
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
       },
     );
   }

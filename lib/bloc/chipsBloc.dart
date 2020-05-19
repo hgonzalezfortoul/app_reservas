@@ -7,7 +7,7 @@ class ChipsBloc {
     Categoria(id: 1, label: "Mediterraneo"),
     Categoria(id: 2, label: "Italiano"),
     Categoria(id: 3, label: "Internacional"),
-    Categoria(id: 4, label: "Español"),
+    Categoria(id: 4, label: "Española"),
     Categoria(id: 5, label: "Griega"),
     Categoria(id: 6, label: "Venezolana")
   ];
