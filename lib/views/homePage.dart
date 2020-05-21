@@ -1,9 +1,11 @@
+import 'dart:developer';
 
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
 import 'package:app_reservar_horario/components/cartasRestaurante.dart';
 import 'package:app_reservar_horario/components/chips.dart';
 import 'package:app_reservar_horario/components/topBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -13,6 +15,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController _scrollController = ScrollController();
+  double _heightChipsContainer = 60;
+  int _baja = 0;
   void dispose() {
     ChipsBloc().dispose();
     super.dispose();
@@ -29,23 +34,58 @@ class _HomePageState extends State<HomePage> {
             MyTopBarWidget(),
             Flexible(
               fit: FlexFit.tight,
-              child: ListView(
-                physics: BouncingScrollPhysics(),
+              child: Column(
                 children: <Widget>[
-                  Container(
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
                     width: double.infinity,
-                    height: 60,
+                    height: _heightChipsContainer,
                     child: MisCustomChips(),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-                    alignment: Alignment(-1, 0),
-                    child: Text(
-                      "Mas cercanos",
-                      style: TextStyle(fontSize: 35),
+                  Flexible(
+                    child: NotificationListener(
+                      child: ListView(
+                        controller: _scrollController,
+                        physics: BouncingScrollPhysics(),
+                        children: <Widget>[
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              CartasRestaurante(),
+                            ],
+                          ),
+                        ],
+                      ),
+                      onNotification: (r) {
+                        var _direccionScroll =
+                            _scrollController.position.userScrollDirection;
+                        //Si sube
+                        if (_direccionScroll == ScrollDirection.reverse) {
+                          //Si sube se coloca la variable baja a 0 para evitar que vuelva a entrar
+                          //En el If y evitar que utilice el setState varias veces
+                          if (_baja == 1) {
+                            print("Prueba");
+                            _baja = 0;
+                            setState(() {
+                              _heightChipsContainer = 0;
+                            });
+                          }
+                        }
+                        //Si baja
+                        else if (_direccionScroll == ScrollDirection.forward) {
+                          //Si sube se coloca la variable baja a 1 para evitar que vuelva a entrar
+                          //En el If y evitar que utilice el setState varias veces
+                          if (_baja == 0) {
+                            _baja = 1;
+                            print("Prueba 2");
+                            setState(() {
+                              _heightChipsContainer = 60;
+                            });
+                          }
+                        }
+                      },
                     ),
                   ),
-                  CartasRestaurante(),
                 ],
               ),
             ),
