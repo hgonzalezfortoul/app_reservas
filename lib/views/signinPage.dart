@@ -1,3 +1,4 @@
+import 'package:app_reservar_horario/components/myTextField.dart';
 import 'package:app_reservar_horario/model/SignInController.dart';
 import 'package:flutter/material.dart';
 import 'package:app_reservar_horario/styles/color.dart';
@@ -14,6 +15,14 @@ class _SigninPageState extends State<SigninPage> {
   SignInController _signInController = SignInController();
   KeyboardVisibilityNotification _keyboardVisibility =
       new KeyboardVisibilityNotification();
+  Color _colorPrimario = MyColors().colorPrimario;
+  Color _colorSecundario = MyColors().colorSecundario;
+  Color _colorFondo = MyColors().colorFondo;
+
+  String _usuario, _pass;
+
+  TextEditingController _usuarioTextEditingController = TextEditingController();
+  TextEditingController _passTextEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -33,13 +42,6 @@ class _SigninPageState extends State<SigninPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color _colorPrimario = MyColors().colorPrimario;
-    Color _colorSecundario = MyColors().colorSecundario;
-    Color _colorFondo = MyColors().colorFondo;
-
-    String _nombre = "";
-    String _pass = "";
-
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -70,85 +72,18 @@ class _SigninPageState extends State<SigninPage> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     width: MediaQuery.of(context).size.width * 0.8,
                     constraints: BoxConstraints(maxWidth: 600),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: _colorFondo,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "Introduce el nombre de usuario";
-                          }
-                          return null;
-                        },
-                        onSaved: (String nombre) {
-                          _nombre = nombre;
-                        },
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          hintText: "Nombre de usuario",
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: _colorPrimario, width: 2),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: Colors.black54),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: _colorSecundario),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: _colorSecundario),
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: MyCustomTextField(
+                        "Nombre de usuario",
+                        "texto",
+                        "Introduce el nombre de usuario",
+                        _usuarioTextEditingController),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     width: MediaQuery.of(context).size.width * 0.8,
                     constraints: BoxConstraints(maxWidth: 600),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: _colorFondo,
-                          borderRadius: BorderRadius.circular(5)),
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "Introduce la contraseña";
-                          }
-                          return null;
-                        },
-                        onSaved: (String pass) {
-                          _pass = pass;
-                        },
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          hintText: "Contraseña",
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: _colorPrimario, width: 2),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: Colors.black54),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: _colorSecundario),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 2, color: _colorSecundario),
-                          ),
-                        ),
-                      ),
-                    ),
+                    child: MyCustomTextField("Contraseña", "contraseña",
+                        "Introduce la contraseña", _passTextEditingController),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
@@ -171,6 +106,8 @@ class _SigninPageState extends State<SigninPage> {
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
+                          _usuario = _usuarioTextEditingController.text;
+                          _pass = _passTextEditingController.text;
                         }
                       },
                       child: Text(

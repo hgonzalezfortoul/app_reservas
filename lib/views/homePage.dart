@@ -1,7 +1,7 @@
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
-import 'package:app_reservar_horario/components/cartasRestaurante.dart';
-import 'package:app_reservar_horario/components/chips.dart';
-import 'package:app_reservar_horario/components/topBar.dart';
+import 'package:app_reservar_horario/components/myCartasRest.dart';
+import 'package:app_reservar_horario/components/myChips.dart';
+import 'package:app_reservar_horario/components/myTopBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
