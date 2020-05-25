@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:app_reservar_horario/model/categoria.dart';
+import 'package:app_reservar_horario/classes/categoria.dart';
 
 class ChipsBloc {
   List<Categoria> listaCategorias = [

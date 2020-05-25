@@ -1,5 +1,5 @@
 import 'package:app_reservar_horario/bloc/cartasRestauranteBloc.dart';
-import 'package:app_reservar_horario/model/restaurante.dart';
+import 'package:app_reservar_horario/classes/restaurante.dart';
 import 'package:flutter/material.dart';
 
 class CartasRestaurante extends StatefulWidget {

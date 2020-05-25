@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:app_reservar_horario/model/restaurante.dart';
+
+import 'package:app_reservar_horario/classes/restaurante.dart';
 
 class CartasRestauranteBloc {
   List<Restaurante> listaRestaurante = [

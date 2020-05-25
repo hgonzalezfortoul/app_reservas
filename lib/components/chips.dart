@@ -1,4 +1,4 @@
-import 'package:app_reservar_horario/model/categoria.dart';
+import 'package:app_reservar_horario/classes/categoria.dart';
 import 'package:flutter/material.dart';
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
 

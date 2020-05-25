@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
 import 'package:app_reservar_horario/components/cartasRestaurante.dart';
 import 'package:app_reservar_horario/components/chips.dart';
