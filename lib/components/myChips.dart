@@ -1,4 +1,5 @@
 import 'package:app_reservar_horario/classes/categoria.dart';
+import 'package:app_reservar_horario/styles/color.dart';
 import 'package:flutter/material.dart';
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
 
@@ -38,7 +39,7 @@ class _MisCustomChipsState extends State<MisCustomChips> {
                           : Colors.black87),
                   label: Text("${snapshot.data[index].label}"),
                   selected: (id == snapshot.data[index].id ? true : false),
-                  selectedColor: Color.fromARGB(255, 100, 190, 255),
+                  selectedColor: MyColors().colorSecundario,
                   backgroundColor: Colors.white,
                   avatar: null,
                   onSelected: (e) {

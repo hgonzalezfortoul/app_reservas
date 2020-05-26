@@ -41,6 +41,13 @@ class _SigninPageState extends State<SigninPage> {
   }
 
   @override
+  void dispose() { 
+    _usuarioTextEditingController.dispose();
+    _passTextEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
@@ -105,9 +112,9 @@ class _SigninPageState extends State<SigninPage> {
                       height: 50,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
                           _usuario = _usuarioTextEditingController.text;
                           _pass = _passTextEditingController.text;
+                          SignInController().login(_usuario,_pass, context);
                         }
                       },
                       child: Text(

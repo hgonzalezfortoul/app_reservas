@@ -1,21 +1,28 @@
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
+import 'package:app_reservar_horario/classes/usuario.dart';
 import 'package:app_reservar_horario/components/myCartasRest.dart';
 import 'package:app_reservar_horario/components/myChips.dart';
+import 'package:app_reservar_horario/components/myDrawer.dart';
 import 'package:app_reservar_horario/components/myTopBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+  Usuario usr;
+  HomePage({Key key, this.usr}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(usr);
 }
 
 class _HomePageState extends State<HomePage> {
   ScrollController _scrollController = ScrollController();
   double _heightChipsContainer = 60;
   int _baja = 0;
+  Usuario _usuario;
+
+  _HomePageState(this._usuario);
+
   void dispose() {
     ChipsBloc().dispose();
     super.dispose();
@@ -24,12 +31,26 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyCustomDrawer(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          _usuario.nombre + " " + _usuario.apellido,
+          style: TextStyle(color: Colors.black54),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black54,
+        ),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search), onPressed: () {}),
+        ],
+      ),
       body: Container(
         child: SafeArea(
             child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            MyTopBarWidget(),
             Flexible(
               fit: FlexFit.tight,
               child: Column(
