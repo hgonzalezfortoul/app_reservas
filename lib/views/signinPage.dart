@@ -1,5 +1,6 @@
 import 'package:app_reservar_horario/components/myTextField.dart';
 import 'package:app_reservar_horario/model/SignInController.dart';
+import 'package:app_reservar_horario/views/registrarsePage.dart';
 import 'package:flutter/material.dart';
 import 'package:app_reservar_horario/styles/color.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
@@ -41,7 +42,7 @@ class _SigninPageState extends State<SigninPage> {
   }
 
   @override
-  void dispose() { 
+  void dispose() {
     _usuarioTextEditingController.dispose();
     _passTextEditingController.dispose();
     super.dispose();
@@ -114,7 +115,7 @@ class _SigninPageState extends State<SigninPage> {
                         if (_formKey.currentState.validate()) {
                           _usuario = _usuarioTextEditingController.text;
                           _pass = _passTextEditingController.text;
-                          SignInController().login(_usuario,_pass, context);
+                          _signInController.login(_usuario, _pass, context);
                         }
                       },
                       child: Text(
@@ -134,19 +135,27 @@ class _SigninPageState extends State<SigninPage> {
                       maxWidth: 600,
                     ),
                     alignment: Alignment.center,
-                    child: RichText(
-                      text: TextSpan(
-                          style: new TextStyle(
-                            color: Colors.black,
-                          ),
-                          children: [
-                            TextSpan(text: "Has click aquí para "),
-                            TextSpan(
-                                text: "Registrarte",
-                                style: TextStyle(
-                                    color: _colorPrimario,
-                                    fontWeight: FontWeight.bold))
-                          ]),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (contexto) => RegistrarsePage()));
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                            style: new TextStyle(
+                              color: Colors.black,
+                            ),
+                            children: [
+                              TextSpan(text: "Has click aquí para "),
+                              TextSpan(
+                                  text: "Registrarte",
+                                  style: TextStyle(
+                                      color: _colorPrimario,
+                                      fontWeight: FontWeight.bold))
+                            ]),
+                      ),
                     ),
                   )
                 ],
