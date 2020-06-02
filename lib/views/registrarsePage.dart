@@ -1,4 +1,6 @@
+import 'package:app_reservar_horario/pageTransactions/slideRight.dart';
 import 'package:app_reservar_horario/styles/color.dart';
+import 'package:app_reservar_horario/views/registrarIndivualPage.dart';
 import 'package:flutter/material.dart';
 
 class RegistrarsePage extends StatelessWidget {
@@ -14,11 +16,14 @@ class RegistrarsePage extends StatelessWidget {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios,
+                color: Colors.black87,
               ),
-              onPressed: () {Navigator.pop(context);},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             elevation: 0,
-            backgroundColor: MyColors().colorPrimario),
+            backgroundColor: Colors.transparent),
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -37,13 +42,13 @@ class RegistrarsePage extends StatelessWidget {
                     maxWidth: 600,
                     maxHeight: 600,
                   ),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.width * 0.65,
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.width * 0.55,
                   child: Card(
-                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
-                      
                       onTap: () {},
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -65,13 +70,17 @@ class RegistrarsePage extends StatelessWidget {
                     maxWidth: 600,
                     maxHeight: 600,
                   ),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.width * 0.65,
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.width * 0.55,
                   child: Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(10),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                            SlideRightRoute(page: RegistrarIndividualPage()));
+                      },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -80,7 +89,10 @@ class RegistrarsePage extends StatelessWidget {
                             color: MyColors().colorPrimario,
                             size: 80,
                           ),
-                          Text("Individual", style: TextStyle(fontSize: 24),)
+                          Text(
+                            "Individual",
+                            style: TextStyle(fontSize: 24),
+                          )
                         ],
                       ),
                     ),

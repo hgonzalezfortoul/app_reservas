@@ -1,3 +1,4 @@
+import 'package:app_reservar_horario/components/myCustomButtonFilled.dart';
 import 'package:app_reservar_horario/components/myTextField.dart';
 import 'package:app_reservar_horario/model/SignInController.dart';
 import 'package:app_reservar_horario/views/registrarsePage.dart';
@@ -21,7 +22,7 @@ class _SigninPageState extends State<SigninPage> {
   Color _colorFondo = MyColors().colorFondo;
 
   String _usuario, _pass;
-
+  bool _isPassword = true;
   TextEditingController _usuarioTextEditingController = TextEditingController();
   TextEditingController _passTextEditingController = TextEditingController();
 
@@ -76,23 +77,12 @@ class _SigninPageState extends State<SigninPage> {
                       style: TextStyle(fontSize: 45),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    constraints: BoxConstraints(maxWidth: 600),
-                    child: MyCustomTextField(
-                        "Nombre de usuario",
-                        "texto",
-                        "Introduce el nombre de usuario",
-                        _usuarioTextEditingController),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    constraints: BoxConstraints(maxWidth: 600),
-                    child: MyCustomTextField("Contraseña", "contraseña",
-                        "Introduce la contraseña", _passTextEditingController),
-                  ),
+                  MyCustomTextField(
+                      "Nombre de usuario",
+                      "texto",
+                      "Introduce el nombre de usuario",
+                      _usuarioTextEditingController),
+                  myCustomPassField(context),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     width: MediaQuery.of(context).size.width * 0.8,
@@ -106,7 +96,7 @@ class _SigninPageState extends State<SigninPage> {
                     )),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 30),
+                    padding: EdgeInsets.only(top: 20),
                     width: MediaQuery.of(context).size.width * 0.8,
                     constraints: BoxConstraints(maxWidth: 600),
                     child: MaterialButton(
@@ -129,7 +119,7 @@ class _SigninPageState extends State<SigninPage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(bottom: 30),
+                    padding: EdgeInsets.only(bottom: 30, top: 30),
                     width: MediaQuery.of(context).size.width * 0.8,
                     constraints: BoxConstraints(
                       maxWidth: 600,
@@ -163,5 +153,56 @@ class _SigninPageState extends State<SigninPage> {
             ),
           ),
         ));
+  }
+
+  Theme myCustomPassField(BuildContext context) {
+    return Theme(
+      data:
+          ThemeData(accentColor: _colorPrimario, primaryColor: _colorPrimario),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        width: MediaQuery.of(context).size.width * 0.8,
+        constraints: BoxConstraints(maxWidth: 600),
+        decoration: BoxDecoration(
+            color: _colorFondo, borderRadius: BorderRadius.circular(5)),
+        child: TextFormField(
+          controller: _passTextEditingController,
+          keyboardType: TextInputType.visiblePassword,
+          obscureText: _isPassword,
+          validator: (value) {
+            if (value.isEmpty) {
+              return "Introduce la contraseña";
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            suffixIcon: GestureDetector(
+              child: _isPassword
+                  ? Icon(Icons.visibility_off)
+                  : Icon(Icons.visibility),
+              onTap: () {
+                setState(() {
+                  _isPassword = !_isPassword;
+                });
+              },
+            ),
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            hintText: "Contraseña",
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: _colorPrimario, width: 2),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2, color: Colors.black54),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2, color: _colorSecundario),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2, color: _colorSecundario),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
