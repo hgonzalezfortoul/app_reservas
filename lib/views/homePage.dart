@@ -130,7 +130,9 @@ class _HomePageState extends State<HomePage> {
             (BuildContext context, AsyncSnapshot<List<Restaurante>> snapshot) {
           if (snapshot.hasData) {
             List<Widget> listaCartas = List();
+            print(snapshot.data.length.toString());
             //For para añadir cada widget a una lista y devolverlo como una columna
+            
             for (var index = 0; index < snapshot.data.length; index++) {
               listaCartas.add(GestureDetector(
                 child: Container(
@@ -258,7 +260,7 @@ class _HomePageState extends State<HomePage> {
                   onSelected: (e) {
                     setState(() {
                       _id = snapshot.data[index].id;
-                      _cartasRestauranteBloc.cambiarCategoria(snapshot.data[index].label);
+                      _cartasRestauranteBloc.cambiarCategoria(snapshot.data[index].label, );
                     });
                   },
                 ),
