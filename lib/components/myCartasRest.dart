@@ -1,16 +1,22 @@
 import 'package:app_reservar_horario/bloc/cartasRestauranteBloc.dart';
 import 'package:app_reservar_horario/classes/restaurante.dart';
+import 'package:app_reservar_horario/classes/usuario.dart';
+import 'package:app_reservar_horario/model/funciones.dart';
+import 'package:app_reservar_horario/pageTransactions/slideRight.dart';
+import 'package:app_reservar_horario/views/restauranteDetallePage.dart';
 import 'package:flutter/material.dart';
 
-class CartasRestaurante extends StatefulWidget {
-  CartasRestaurante({Key key}) : super(key: key);
+class CartasRestaurante extends StatelessWidget {
+  Usuario usuario;
+  String categoria;
+  Funciones funciones;
+  CartasRestauranteBloc cartasRestauranteBloc;
+  CartasRestaurante({Key key, this.usuario, this.categoria, this.cartasRestauranteBloc, this.funciones}) : super(key: key);
 
-  @override
-  _CartasRestauranteState createState() => _CartasRestauranteState();
-}
+  Usuario usr;
 
-class _CartasRestauranteState extends State<CartasRestaurante> {
-  CartasRestauranteBloc cartasRestauranteBloc = CartasRestauranteBloc();
+  
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -60,7 +66,7 @@ class _CartasRestauranteState extends State<CartasRestaurante> {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Row(
-                                          children: getValoracion(
+                                          children: funciones.getValoracion(
                                               snapshot.data[index].valoracion)),
                                       Container(
                                         child: Text(snapshot
@@ -88,8 +94,9 @@ class _CartasRestauranteState extends State<CartasRestaurante> {
                               borderRadius: BorderRadius.circular(10)),
                           onPressed: () {},
                           child: Icon(
-                            Icons.label_outline,
+                            Icons.favorite,
                             size: 30,
+                            color: Colors.redAccent,
                           ),
                           color: Colors.white,
                         ),
@@ -97,6 +104,13 @@ class _CartasRestauranteState extends State<CartasRestaurante> {
                     ],
                   ),
                 ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      SlideRightRoute(
+                          page: RestauranteDetallePage(
+                              usr, snapshot.data[index])));
+                },
               ));
             }
             return new Column(
@@ -106,23 +120,5 @@ class _CartasRestauranteState extends State<CartasRestaurante> {
             return CircularProgressIndicator();
           }
         });
-  }
-
-  getValoracion(int valoracion) {
-    int estrellasRestantes = 5 - valoracion;
-    List<Widget> listaEstrellas = List();
-    for (var i = 0; i < valoracion; i++) {
-      listaEstrellas.add(Icon(
-        Icons.star,
-        color: Colors.yellow,
-      ));
-    }
-    for (var i = 0; i < estrellasRestantes; i++) {
-      listaEstrellas.add(Icon(
-        Icons.star,
-        color: Colors.grey,
-      ));
-    }
-    return listaEstrellas;
   }
 }

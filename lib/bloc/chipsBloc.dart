@@ -4,7 +4,7 @@ import 'package:app_reservar_horario/classes/categoria.dart';
 class ChipsBloc {
   List<Categoria> listaCategorias = [
     Categoria(id: 1, label: "Mediterraneo"),
-    Categoria(id: 2, label: "Italiano"),
+    Categoria(id: 2, label: "Italiana"),
     Categoria(id: 3, label: "Internacional"),
     Categoria(id: 4, label: "Española"),
     Categoria(id: 5, label: "Griega"),

@@ -1,4 +1,5 @@
 import 'package:app_reservar_horario/classes/categoria.dart';
+import 'package:app_reservar_horario/components/myCartasRest.dart';
 import 'package:app_reservar_horario/styles/color.dart';
 import 'package:flutter/material.dart';
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
@@ -12,7 +13,7 @@ class MisCustomChips extends StatefulWidget {
 
 class _MisCustomChipsState extends State<MisCustomChips> {
   final chipsBloc = ChipsBloc();
-  int id = 0;
+  int id = 1;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
