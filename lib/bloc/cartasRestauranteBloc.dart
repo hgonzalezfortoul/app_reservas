@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:app_reservar_horario/classes/Carta.dart';
 import 'package:app_reservar_horario/classes/Plato.dart';
-import 'package:app_reservar_horario/classes/restaurante.dart';
+import 'package:app_reservar_horario/classes/Restaurante.dart';
 
 class CartasRestauranteBloc {
   List<Restaurante> listaR = new List<Restaurante>();
@@ -64,7 +64,7 @@ class CartasRestauranteBloc {
   }
 
   void cambiarCategoria(String label) {
-    
+    listaR=new List<Restaurante>();
     switch (label) {
       case "Internacional":
         print("Entro Internacional" + listaRestaurante[0].toString());

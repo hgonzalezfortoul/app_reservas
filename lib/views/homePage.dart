@@ -1,7 +1,7 @@
 import 'package:app_reservar_horario/bloc/cartasRestauranteBloc.dart';
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
+import 'package:app_reservar_horario/classes/Restaurante.dart';
 import 'package:app_reservar_horario/classes/categoria.dart';
-import 'package:app_reservar_horario/classes/restaurante.dart';
 import 'package:app_reservar_horario/classes/usuario.dart';
 import 'package:app_reservar_horario/components/myCartasRest.dart';
 import 'package:app_reservar_horario/components/myChips.dart';
@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
             List<Widget> listaCartas = List();
             print(snapshot.data.length.toString());
             //For para añadir cada widget a una lista y devolverlo como una columna
-            
+
             for (var index = 0; index < snapshot.data.length; index++) {
               listaCartas.add(GestureDetector(
                 child: Container(
@@ -260,7 +260,9 @@ class _HomePageState extends State<HomePage> {
                   onSelected: (e) {
                     setState(() {
                       _id = snapshot.data[index].id;
-                      _cartasRestauranteBloc.cambiarCategoria(snapshot.data[index].label, );
+                      _cartasRestauranteBloc.cambiarCategoria(
+                        snapshot.data[index].label,
+                      );
                     });
                   },
                 ),
