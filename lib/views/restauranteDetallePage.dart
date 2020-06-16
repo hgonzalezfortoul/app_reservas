@@ -1,5 +1,5 @@
 import 'package:app_reservar_horario/classes/Plato.dart';
-import 'package:app_reservar_horario/classes/restaurante.dart';
+import 'package:app_reservar_horario/classes/Restaurante.dart';
 import 'package:app_reservar_horario/classes/usuario.dart';
 import 'package:app_reservar_horario/model/funciones.dart';
 import 'package:app_reservar_horario/styles/color.dart';

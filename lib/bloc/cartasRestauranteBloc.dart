@@ -51,7 +51,7 @@ class CartasRestauranteBloc {
 
   //Stream Controller
   StreamController<List<Restaurante>> streamControllerRestaurante =
-      StreamController();
+      StreamController<List<Restaurante>>.broadcast();
 
   //Streams y Sinks
   Stream<List<Restaurante>> get streamRestaurante =>
@@ -64,7 +64,7 @@ class CartasRestauranteBloc {
   }
 
   void cambiarCategoria(String label) {
-    listaR=new List<Restaurante>();
+    listaR = new List<Restaurante>();
     switch (label) {
       case "Internacional":
         print("Entro Internacional" + listaRestaurante[0].toString());
@@ -93,8 +93,7 @@ class CartasRestauranteBloc {
       case "Mediterraneo":
         print("Entro Mediterraneo" + listaRestaurante[0].toString());
         for (Restaurante item in listaRestaurante) {
-          if (item.categoria ==
-              "Mediterraneo") {
+          if (item.categoria == "Mediterraneo") {
             listaR.add(item);
           }
         }
@@ -116,7 +115,57 @@ class CartasRestauranteBloc {
         }
         break;
     }
-    print(listaR);
+    print("Lenght: " + listaR.toString());
     sinkRestaurante.add(listaR);
+  }
+
+  bool cargarMas(String categoria) {
+    switch (categoria) {
+      case "Internacional":
+        for (Restaurante item in listaRestaurante) {
+          if (item.categoria == "Internacional") {
+            listaR.add(item);
+          }
+        }
+        break;
+      case "Italiana":
+        for (Restaurante item in listaRestaurante) {
+          if (item.categoria == "Italiana") {
+            listaR.add(item);
+          }
+        }
+        break;
+      case "Venezolana":
+        for (Restaurante item in listaRestaurante) {
+          if (item.categoria == "Venezolana") {
+            listaR.add(item);
+          }
+        }
+        break;
+      case "Mediterraneo":
+        for (Restaurante item in listaRestaurante) {
+          if (item.categoria == "Mediterraneo") {
+            listaR.add(item);
+          }
+        }
+        break;
+      case "Española":
+        for (Restaurante item in listaRestaurante) {
+          if (item.categoria == "Española") {
+            listaR.add(item);
+          }
+        }
+        break;
+      case "Griega":
+        for (Restaurante item in listaRestaurante) {
+          if (item.categoria == "Griega") {
+            listaR.add(item);
+          }
+        }
+        break;
+    }
+    print("Lenght: " + listaR.length.toString());
+    sinkRestaurante;
+    return false;
   }
 }
