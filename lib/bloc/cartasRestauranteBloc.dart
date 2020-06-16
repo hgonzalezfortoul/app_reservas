@@ -51,7 +51,7 @@ class CartasRestauranteBloc {
 
   //Stream Controller
   StreamController<List<Restaurante>> streamControllerRestaurante =
-      StreamController<List<Restaurante>>.broadcast();
+      StreamController<List<Restaurante>>();
 
   //Streams y Sinks
   Stream<List<Restaurante>> get streamRestaurante =>

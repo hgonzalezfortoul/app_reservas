@@ -12,8 +12,8 @@ class ChipsBloc {
   ];
 
   //? Declaracion de StreamsController
-  StreamController<List<Categoria>> streamController = StreamController();
-  StreamController<Categoria> streamControllerCategoria = StreamController();
+  StreamController<List<Categoria>> streamController = StreamController<List<Categoria>>();
+  StreamController<Categoria> streamControllerCategoria = StreamController<Categoria>();
 
   //!Stream y Sink controller
   Stream<List<Categoria>> get listaCategoriaStream => streamController.stream;
@@ -24,6 +24,7 @@ class ChipsBloc {
   StreamSink<Categoria> get sinkCategoria => streamControllerCategoria.sink;
 
   ChipsBloc() {
+    
     streamController.add(listaCategorias);
   }
 

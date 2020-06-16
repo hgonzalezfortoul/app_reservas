@@ -43,6 +43,7 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
             elevation: 0,
             backgroundColor: Colors.transparent),
         body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Container(
             child: Column(
               children: <Widget>[
@@ -113,8 +114,8 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 15),
-                  width: MediaQuery.of(context).size.width * 0.83,
+                  margin: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                  
                   child: Text(
                     "It is a long established fact that a reader will be distracted by the readable content of a looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use ",
                     style: TextStyle(
@@ -122,7 +123,9 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                   ),
                 ),
                 Container(
-                    width: MediaQuery.of(context).size.width * 0.83,
+             padding: EdgeInsets.symmetric(
+                    horizontal: 25,
+                  ),
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Carta",
@@ -168,6 +171,42 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                 Container(
                   padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
                   child: columna(restaurante.cartas[_posicion].platos),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 20, bottom: 30),
+                      constraints: BoxConstraints(maxWidth: 60),
+                      child: MaterialButton(
+                        height: 50,
+                        onPressed: () {},
+                        child: Icon(Icons.favorite_border),
+                        color: Colors.white,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 20, bottom: 30),
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      constraints: BoxConstraints(maxWidth: 600),
+                      child: MaterialButton(
+                        height: 50,
+                        onPressed: () {},
+                        child: Text(
+                          "HACER RESERVA",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        color: MyColors().colorPrimario,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                      ),
+                    )
+                  ],
                 )
               ],
             ),

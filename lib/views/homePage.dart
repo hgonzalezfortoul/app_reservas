@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   ScrollController _scrollController = ScrollController();
   CartasRestauranteBloc _cartasRestauranteBloc = CartasRestauranteBloc();
   ChipsBloc _chipsBloc = ChipsBloc();
-  
+
   Funciones funciones = new Funciones();
   int _id = 1;
   Usuario _usuario;
@@ -55,7 +55,6 @@ class _HomePageState extends State<HomePage> {
           _cargandoMas = _cartasRestauranteBloc.cargarMas(_categoria);
         });
       }
-     
     });
   }
 
@@ -68,36 +67,43 @@ class _HomePageState extends State<HomePage> {
         height: MediaQuery.of(context).size.height,
         child: SafeArea(
             child: SingleChildScrollView(
-                          child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-             Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              /*  Container(
                
                 width: double.infinity,
                 alignment: Alignment.topCenter,
                 height: 60,
                 child: myChipsCategorias(),
-              ),
+              ),  */
               Container(
-                
-                height: MediaQuery.of(context).size.height-80-myAppBar().preferredSize.height,
+                padding: EdgeInsets.only(bottom: 25),
+                height: MediaQuery.of(context).size.height -
+                    myAppBar().preferredSize.height,
                 child: myCardsRestaurante() ??
                     Container(
                       height: 20,
-                        width: 20,
-                   
+                      width: 20,
                     ),
               ),
-          ],
-        ),
-            )),
+            ],
+          ),
+        )),
       ),
     );
   }
 
   AppBar myAppBar() {
-    AppBar myApB=AppBar(
-      
+    AppBar myApB = AppBar(
+      bottom: PreferredSize(
+          child: Container(
+            width: double.infinity,
+            alignment: Alignment.center,
+            height: 60,
+            child: myChipsCategorias(),
+          ),
+          preferredSize: Size.fromHeight(60)),
       backgroundColor: Colors.transparent,
       elevation: 0,
       iconTheme: IconThemeData(
@@ -120,110 +126,117 @@ class _HomePageState extends State<HomePage> {
             //For para añadir cada widget a una lista y devolverlo como una columna
             print("object");
             return Container(
-              
+              height: 50,
               child: ListView.builder(
-                  itemCount: snapshot.data.length,
+                  itemCount: snapshot.data.length + 1,
                   scrollDirection: Axis.vertical,
                   physics: BouncingScrollPhysics(),
                   controller: _scrollController,
                   itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      child: Container(
-                        padding: EdgeInsets.only(bottom: 10, top: 10),
-                        height: 290,
-                        width: MediaQuery.of(context).size.width,
-                        child: Stack(
-                          children: <Widget>[
-                            Container(
-                              height: 220,
-                              color: Colors.blue,
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 20,
-                              right: 20,
-                              child: Card(
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10))),
-                                child: Container(
-                                  padding: EdgeInsets.only(
-                                      left: 15, right: 15, top: 15),
-                                  height: 100,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        "${snapshot.data[index].nombre}",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 22),
-                                      ),
-                                      Container(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Row(
-                                                children: funciones
-                                                    .getValoracion(snapshot
-                                                        .data[index]
-                                                        .valoracion)),
-                                            Container(
-                                              child: Text(snapshot.data[index]
-                                                          .distancia >=
-                                                      1000
-                                                  ? "${(snapshot.data[index].distancia / 1000).toStringAsFixed(2)} km"
-                                                  : "${snapshot.data[index].distancia} m"),
-                                            ),
-                                          ],
+                    if (index == snapshot.data.length) {
+                      return Container(
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        child: Center(
+                          
+                          child:  CircularProgressIndicator(),
+                        ),
+                      );
+                    } else {
+                      return GestureDetector(
+                        child: Container(
+                          padding: EdgeInsets.only(bottom: 10, top: 10),
+                          height: 290,
+                          width: MediaQuery.of(context).size.width,
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                height: 220,
+                                color: Colors.blue,
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                left: 20,
+                                right: 20,
+                                child: Card(
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10))),
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                        left: 15, right: 15, top: 15),
+                                    height: 100,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          "${snapshot.data[index].nombre}",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 22),
                                         ),
-                                      ),
-                                    ],
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Row(
+                                                  children: funciones
+                                                      .getValoracion(snapshot
+                                                          .data[index]
+                                                          .valoracion)),
+                                              Container(
+                                                child: Text(snapshot.data[index]
+                                                            .distancia >=
+                                                        1000
+                                                    ? "${(snapshot.data[index].distancia / 1000).toStringAsFixed(2)} km"
+                                                    : "${snapshot.data[index].distancia} m"),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              bottom: 80,
-                              right: 50,
-                              child: MaterialButton(
-                                height: 55,
-                                minWidth: 10,
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                onPressed: () {},
-                                child: Icon(
-                                  Icons.favorite,
-                                  size: 30,
-                                  color: Colors.redAccent,
+                              Positioned(
+                                bottom: 80,
+                                right: 50,
+                                child: MaterialButton(
+                                  height: 55,
+                                  minWidth: 10,
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  onPressed: () {},
+                                  child: Icon(
+                                    Icons.favorite,
+                                    size: 30,
+                                    color: Colors.redAccent,
+                                  ),
+                                  color: Colors.white,
                                 ),
-                                color: Colors.white,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            SlideRightRoute(
-                                page: RestauranteDetallePage(
-                                    _usuario, snapshot.data[index])));
-                      },
-                    );
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              SlideRightRoute(
+                                  page: RestauranteDetallePage(
+                                      _usuario, snapshot.data[index])));
+                        },
+                      );
+                    }
                   }),
             );
           } else {
-            return Container(
-                height: 20,
-                width: 20,
-                child: Center(child: CircularProgressIndicator())
-            );
+            return Container(child: Center(child: CircularProgressIndicator()));
           }
         });
   }
@@ -233,6 +246,7 @@ class _HomePageState extends State<HomePage> {
       stream: _chipsBloc.listaCategoriaStream,
       builder: (BuildContext context, AsyncSnapshot<List<Categoria>> snapshot) {
         if (snapshot.hasData) {
+          print("object");
           return ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: snapshot.data.length,
