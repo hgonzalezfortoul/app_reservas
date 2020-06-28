@@ -26,7 +26,9 @@ dependencies:
   flutter_svg: ^0.17.4
   keyboard_visibility: ^0.5.6
   validators: ^2.0.0+1
-  
+  intl: ^0.16.1
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

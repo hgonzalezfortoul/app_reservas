@@ -80,8 +80,8 @@ class _SigninPageState extends State<SigninPage> {
                       ),
                       MyCustomTextField(
                           "Nombre de usuario",
-                          "texto",
-                          "Introduce el nombre de usuario",
+                          "email",
+                          "Introduce tu email",
                           _usuarioTextEditingController),
                       myCustomPassField(context),
                       Container(

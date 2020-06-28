@@ -6,7 +6,7 @@ import 'package:app_reservar_horario/views/perfilPage.dart';
 import 'package:flutter/material.dart';
 
 class MyCustomDrawer extends StatefulWidget {
-  Usuario usuario;
+  final Usuario usuario;
   MyCustomDrawer(this.usuario, {Key key}) : super(key: key);
 
   @override
@@ -36,7 +36,7 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
                 children: <Widget>[
                   CircleAvatar(
                     backgroundImage: AssetImage(
-                      'assets/img/profile-example.jpg',
+                      usuario.image,
                     ),
                     radius: 45,
                   ),
@@ -67,7 +67,8 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
             child: ListTile(
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, SlideRightRoute(page: PerfilPage()));
+                Navigator.push(context,
+                    SlideRightRoute(page: PerfilPage(usuario: this.usuario)));
               },
               title: Text(
                 "Perfil",
@@ -111,34 +112,11 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 20),
-            child: ListTile(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              title: Text(
-                "Favoritos",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-              leading: Container(
-                child: Icon(
-                  Icons.favorite,
-                  color: Colors.white,
-                  size: 22,
-                ),
-                padding: EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Color.fromRGBO(255, 255, 255, 0.5),
-                ),
-              ),
-            ),
-          ),
+         
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.3,
-              minHeight: MediaQuery.of(context).size.height * 0.3,
+              maxHeight: MediaQuery.of(context).size.height * 0.4,
+              minHeight: MediaQuery.of(context).size.height * 0.4,
             ),
             child: SizedBox(),
           ),

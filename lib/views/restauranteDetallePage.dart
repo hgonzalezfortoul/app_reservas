@@ -3,6 +3,7 @@ import 'package:app_reservar_horario/classes/Restaurante.dart';
 import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/model/funciones.dart';
 import 'package:app_reservar_horario/styles/color.dart';
+import 'package:app_reservar_horario/views/homePage.dart';
 import 'package:flutter/material.dart';
 
 class RestauranteDetallePage extends StatefulWidget {
@@ -37,7 +38,10 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                 color: Colors.black87,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                
+               setState(() {
+                 Navigator.pop(context, true);
+               });
               },
             ),
             elevation: 0,
@@ -63,7 +67,24 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                 Container(
                   height: 250,
                   width: MediaQuery.of(context).size.width,
-                  color: Colors.blue,
+                  child: Image(
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent imgLoading) {
+                      if (imgLoading == null) {
+                        return child;
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                    height: 220,
+                    width: MediaQuery.of(context).size.width,
+                    image: AssetImage(
+                      restaurante.imagen,
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Container(
                   padding:
@@ -115,7 +136,6 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-                  
                   child: Text(
                     "It is a long established fact that a reader will be distracted by the readable content of a looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use ",
                     style: TextStyle(
@@ -123,9 +143,9 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                   ),
                 ),
                 Container(
-             padding: EdgeInsets.symmetric(
-                    horizontal: 25,
-                  ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 25,
+                    ),
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Carta",
@@ -174,15 +194,31 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.only(top: 20, bottom: 30),
                       constraints: BoxConstraints(maxWidth: 60),
+                      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                       child: MaterialButton(
                         height: 50,
-                        onPressed: () {},
-                        child: Icon(Icons.favorite_border),
+                        onPressed: () {
+                          setState(() {
+                            if (this.usr.favoritos.contains(restaurante)) {
+                              this.usr.favoritos.remove(restaurante);
+                            } else {
+                              this.usr.favoritos.add(restaurante);
+                            }
+                          });
+                        },
+                        child: usr.favoritos.contains(restaurante)
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.redAccent,
+                              )
+                            : Icon(
+                                Icons.favorite_border,
+                                color: Colors.grey,
+                              ),
                         color: Colors.white,
                         elevation: 2,
                         shape: RoundedRectangleBorder(

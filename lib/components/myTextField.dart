@@ -1,7 +1,7 @@
 import 'package:app_reservar_horario/styles/color.dart';
-import 'package:app_reservar_horario/views/signinPage.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MyCustomTextField extends StatelessWidget {
   final Color _colorPrimario = MyColors().colorPrimario,
       _colorSecundario = MyColors().colorSecundario,
@@ -16,7 +16,6 @@ class MyCustomTextField extends StatelessWidget {
       case "texto":
         _tipoTeclado = TextInputType.text;
         break;
-
       case "email":
         _tipoTeclado = TextInputType.emailAddress;
         break;
@@ -35,7 +34,7 @@ class MyCustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(cursorColor: _colorPrimario),
-          child: Container(
+      child: Container(
         padding: EdgeInsets.symmetric(vertical: 10),
         width: MediaQuery.of(context).size.width * 0.8,
         constraints: BoxConstraints(maxWidth: 600),
@@ -51,7 +50,6 @@ class MyCustomTextField extends StatelessWidget {
             return null;
           },
           decoration: InputDecoration(
-            
             contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             hintText: _placeHolder,
             focusedBorder: OutlineInputBorder(

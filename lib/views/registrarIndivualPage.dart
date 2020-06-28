@@ -1,5 +1,3 @@
-import 'package:app_reservar_horario/components/myCustomButtomOutline.dart';
-import 'package:app_reservar_horario/components/myCustomButtonFilled.dart';
 import 'package:app_reservar_horario/components/myTextField.dart';
 import 'package:app_reservar_horario/styles/color.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +17,7 @@ class _RegistrarIndividualPageState extends State<RegistrarIndividualPage> {
       _colorSecundario = MyColors().colorSecundario,
       _colorFondo = MyColors().colorFondo;
   String _nombre = "";
-  TextEditingController _usuarioTextEditingController =
-      new TextEditingController();
+  
   TextEditingController _emailTextEditingController =
       new TextEditingController();
   TextEditingController _nombTextEditingController =
@@ -83,11 +80,7 @@ class _RegistrarIndividualPageState extends State<RegistrarIndividualPage> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        MyCustomTextField(
-                            "Nombre de usuario",
-                            "texto",
-                            "Introduce el nombre de usuario",
-                            _usuarioTextEditingController),
+                      
                         MyCustomTextField(
                             "Correo electronico",
                             "email",

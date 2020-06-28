@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Funciones {
-  Funciones() {}
+  Funciones();
   getValoracion(int valoracion) {
     int estrellasRestantes = 5 - valoracion;
     List<Widget> listaEstrellas = List();

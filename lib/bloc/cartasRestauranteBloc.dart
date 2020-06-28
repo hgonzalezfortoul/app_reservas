@@ -24,29 +24,45 @@ class CartasRestauranteBloc {
   static List<Carta> listaCartas1 = [carta1, carta2];
   List<Restaurante> listaRestaurante = [
     Restaurante(
+        id: 1,
         nombre: "La Rollerie",
         distancia: 204.56,
         valoracion: 5,
         cartas: listaCartas1,
-        categoria: "Internacional"),
+        categoria: "Internacional",
+        imagen: 'assets/img/la-rollerie.jpg'),
     Restaurante(
+        id: 2,
+        nombre: "El Mediterraneo",
+        distancia: 225.26,
+        valoracion: 5,
+        cartas: listaCartas1,
+        categoria: "Mediterraneo",
+        imagen: 'assets/img/mediterraneo.jpg'),
+    Restaurante(
+        id: 3,
         nombre: "Mr Lupin",
         distancia: 556.40,
         valoracion: 4,
         cartas: listaCartas1,
-        categoria: "Italiana"),
+        categoria: "Italiana",
+        imagen: 'assets/img/mr-lupin.jpg'),
     Restaurante(
-        nombre: "Gramabarr",
+        id: 4,
+        nombre: "Gramabar",
         distancia: 150.65,
         valoracion: 3,
         cartas: listaCartas1,
-        categoria: "Venezolana"),
+        categoria: "Venezolana",
+        imagen: 'assets/img/gramabar.jpg'),
     Restaurante(
-        nombre: "Lara Grilll",
+        id: 5,
+        nombre: "Lara Grill",
         distancia: 687.78,
         valoracion: 2,
         cartas: listaCartas1,
-        categoria: "Venezolana"),
+        categoria: "Venezolana",
+        imagen: 'assets/img/laragrill.jpg'),
   ];
 
   //Stream Controller
@@ -67,7 +83,6 @@ class CartasRestauranteBloc {
     listaR = new List<Restaurante>();
     switch (label) {
       case "Internacional":
-        print("Entro Internacional" + listaRestaurante[0].toString());
         for (Restaurante item in listaRestaurante) {
           if (item.categoria == "Internacional") {
             listaR.add(item);
@@ -75,7 +90,6 @@ class CartasRestauranteBloc {
         }
         break;
       case "Italiana":
-        print("Entro Italiana" + listaRestaurante[0].toString());
         for (Restaurante item in listaRestaurante) {
           if (item.categoria == "Italiana") {
             listaR.add(item);
@@ -83,7 +97,6 @@ class CartasRestauranteBloc {
         }
         break;
       case "Venezolana":
-        print("Entro Venezolana" + listaRestaurante[0].toString());
         for (Restaurante item in listaRestaurante) {
           if (item.categoria == "Venezolana") {
             listaR.add(item);
@@ -91,7 +104,6 @@ class CartasRestauranteBloc {
         }
         break;
       case "Mediterraneo":
-        print("Entro Mediterraneo" + listaRestaurante[0].toString());
         for (Restaurante item in listaRestaurante) {
           if (item.categoria == "Mediterraneo") {
             listaR.add(item);
@@ -99,7 +111,6 @@ class CartasRestauranteBloc {
         }
         break;
       case "Española":
-        print("Entro Española" + listaRestaurante[0].toString());
         for (Restaurante item in listaRestaurante) {
           if (item.categoria == "Española") {
             listaR.add(item);
@@ -107,7 +118,6 @@ class CartasRestauranteBloc {
         }
         break;
       case "Griega":
-        print("Entro Griega" + listaRestaurante[0].toString());
         for (Restaurante item in listaRestaurante) {
           if (item.categoria == "Griega") {
             listaR.add(item);
@@ -115,7 +125,6 @@ class CartasRestauranteBloc {
         }
         break;
     }
-    print("Lenght: " + listaR.toString());
     sinkRestaurante.add(listaR);
   }
 
@@ -164,10 +173,10 @@ class CartasRestauranteBloc {
         }
         break;
     }
-    print("Lenght: " + listaR.length.toString());
     sinkRestaurante;
     return false;
   }
+
   void dispose() {
     streamControllerRestaurante.close();
   }

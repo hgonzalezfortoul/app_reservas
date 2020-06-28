@@ -18,24 +18,25 @@ class HomePage extends StatefulWidget {
 
   @override
   _HomePageState createState() => _HomePageState(usr);
+
+  void cambios() {
+    _HomePageState.noParametros().setState(() {});
+  }
 }
 
 class _HomePageState extends State<HomePage> {
   ScrollController _scrollController = ScrollController();
   CartasRestauranteBloc _cartasRestauranteBloc = CartasRestauranteBloc();
   ChipsBloc _chipsBloc = ChipsBloc();
-
   Funciones funciones = new Funciones();
   int _id = 1;
   Usuario _usuario;
 
   var _categoria = "Mediterraneo";
 
-  var _cargandoMas = false;
-
   AppBar myApB;
   _HomePageState(this._usuario);
-
+  _HomePageState.noParametros();
   void dispose() {
     ChipsBloc().dispose();
     super.dispose();
@@ -47,12 +48,10 @@ class _HomePageState extends State<HomePage> {
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent ==
           _scrollController.position.pixels) {
-        setState(() {
-          _cargandoMas = true;
-        });
+        setState(() {});
 
         setState(() {
-          _cargandoMas = _cartasRestauranteBloc.cargarMas(_categoria);
+          _cartasRestauranteBloc.cargarMas(_categoria);
         });
       }
     });
@@ -70,9 +69,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              
               Container(
-                padding: EdgeInsets.only(bottom: 25),
                 height: MediaQuery.of(context).size.height -
                     myAppBar().preferredSize.height,
                 child: myCardsRestaurante() ??
@@ -117,7 +114,7 @@ class _HomePageState extends State<HomePage> {
             (BuildContext context, AsyncSnapshot<List<Restaurante>> snapshot) {
           if (snapshot.hasData) {
             //For para añadir cada widget a una lista y devolverlo como una columna
-            
+
             return Container(
               height: 50,
               child: ListView.builder(
@@ -128,10 +125,10 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (BuildContext context, int index) {
                     if (index == snapshot.data.length) {
                       return Container(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         child: Center(
-                          
-                          child:  CircularProgressIndicator(),
+                          child: CircularProgressIndicator(),
                         ),
                       );
                     } else {
@@ -142,9 +139,23 @@ class _HomePageState extends State<HomePage> {
                           width: MediaQuery.of(context).size.width,
                           child: Stack(
                             children: <Widget>[
-                              Container(
+                              Image(
+                                loadingBuilder: (BuildContext context,
+                                    Widget child, ImageChunkEvent imgLoading) {
+                                  if (imgLoading == null) {
+                                    return child;
+                                  } else {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                },
                                 height: 220,
-                                color: Colors.blue,
+                                width: MediaQuery.of(context).size.width,
+                                image: AssetImage(
+                                  "${snapshot.data[index].imagen}",
+                                ),
+                                fit: BoxFit.cover,
                               ),
                               Positioned(
                                 bottom: 0,
@@ -205,24 +216,52 @@ class _HomePageState extends State<HomePage> {
                                   elevation: 3,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
-                                  onPressed: () {},
-                                  child: Icon(
-                                    Icons.favorite,
-                                    size: 30,
-                                    color: Colors.redAccent,
-                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (this
+                                          ._usuario
+                                          .favoritos
+                                          .contains(snapshot.data[index])) {
+                                        this
+                                            ._usuario
+                                            .favoritos
+                                            .remove(snapshot.data[index]);
+                                      } else {
+                                        this
+                                            ._usuario
+                                            .favoritos
+                                            .add(snapshot.data[index]);
+                                      }
+                                    });
+                                  },
+                                  child: _usuario.favoritos
+                                          .contains(snapshot.data[index])
+                                      ? Icon(
+                                          Icons.favorite,
+                                          size: 30,
+                                          color: Colors.redAccent,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_border,
+                                          size: 30,
+                                          color: Colors.grey,
+                                        ),
                                   color: Colors.white,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        onTap: () {
-                          Navigator.push(
+                        onTap: () async {
+                          await Navigator.push(
                               context,
                               SlideRightRoute(
                                   page: RestauranteDetallePage(
                                       _usuario, snapshot.data[index])));
+
+                          setState(() {
+                            
+                          });
                         },
                       );
                     }
@@ -239,7 +278,6 @@ class _HomePageState extends State<HomePage> {
       stream: _chipsBloc.listaCategoriaStream,
       builder: (BuildContext context, AsyncSnapshot<List<Categoria>> snapshot) {
         if (snapshot.hasData) {
-          print("object");
           return ListView.builder(
             physics: BouncingScrollPhysics(),
             itemCount: snapshot.data.length,
@@ -283,115 +321,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-/*  StreamBuilder<List<Restaurante>> myCardsRestaurante() {
-    return StreamBuilder(
-        stream: _cartasRestauranteBloc.streamRestaurante,
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Restaurante>> snapshot) {
-          if (snapshot.hasData) {
-            List<Widget> listaCartas = List();
-            print(snapshot.data.length.toString());
-            //For para añadir cada widget a una lista y devolverlo como una columna
-        
-            for (var index = 0; index < snapshot.data.length; index++) {
-              listaCartas.add(GestureDetector(
-                child: Container(
-                  padding: EdgeInsets.only(bottom: 10, top: 10),
-                  height: 290,
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        height: 220,
-                        color: Colors.blue,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 20,
-                        right: 20,
-                        child: Card(
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(10),
-                                  bottomLeft: Radius.circular(10))),
-                          child: Container(
-                            padding:
-                                EdgeInsets.only(left: 15, right: 15, top: 15),
-                            height: 100,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "${snapshot.data[index].nombre}",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 22),
-                                ),
-                                Container(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Row(
-                                          children: funciones.getValoracion(
-                                              snapshot.data[index].valoracion)),
-                                      Container(
-                                        child: Text(snapshot
-                                                    .data[index].distancia >=
-                                                1000
-                                            ? "${(snapshot.data[index].distancia / 1000).toStringAsFixed(2)} km"
-                                            : "${snapshot.data[index].distancia} m"),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 80,
-                        right: 50,
-                        child: MaterialButton(
-                          height: 55,
-                          minWidth: 10,
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          onPressed: () {},
-                          child: Icon(
-                            Icons.favorite,
-                            size: 30,
-                            color: Colors.redAccent,
-                          ),
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      SlideRightRoute(
-                          page: RestauranteDetallePage(
-                              _usuario, snapshot.data[index])));
-                },
-              ));
-            }
-            listaCartas.add(Container(
-                height: _cargandoMas ? 50.0 : 0.0,
-                color: Colors.transparent,
-                child: Center(
-                  child: new CircularProgressIndicator(),
-                )));
-            return new Column(
-              children: listaCartas,
-            );
-          } else {
-            return CircularProgressIndicator();
-          }
-        });
-  } */
