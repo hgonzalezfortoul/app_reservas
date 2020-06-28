@@ -168,4 +168,7 @@ class CartasRestauranteBloc {
     sinkRestaurante;
     return false;
   }
+  void dispose() {
+    streamControllerRestaurante.close();
+  }
 }

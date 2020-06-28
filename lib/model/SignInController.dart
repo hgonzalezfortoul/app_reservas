@@ -1,4 +1,4 @@
-import 'package:app_reservar_horario/classes/usuario.dart';
+import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/views/homePage.dart';
 import 'package:flutter/material.dart';
 

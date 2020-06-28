@@ -1,17 +1,24 @@
+import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/main.dart';
+import 'package:app_reservar_horario/pageTransactions/slideRight.dart';
 import 'package:app_reservar_horario/styles/color.dart';
-import 'package:app_reservar_horario/views/signinPage.dart';
+import 'package:app_reservar_horario/views/perfilPage.dart';
 import 'package:flutter/material.dart';
 
 class MyCustomDrawer extends StatefulWidget {
-  MyCustomDrawer({Key key}) : super(key: key);
+  Usuario usuario;
+  MyCustomDrawer(this.usuario, {Key key}) : super(key: key);
 
   @override
-  _MyCustomDrawerState createState() => _MyCustomDrawerState();
+  _MyCustomDrawerState createState() => _MyCustomDrawerState(usuario);
 }
 
 class _MyCustomDrawerState extends State<MyCustomDrawer> {
   Color _colorPrimario = MyColors().colorPrimario;
+  Usuario usuario;
+  _MyCustomDrawerState(
+    this.usuario,
+  );
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -36,8 +43,11 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
                   Container(
                     padding: EdgeInsets.only(top: 15),
                     child: Text(
-                      "Nombre Apellido",
-                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      usuario.nombre + " " + usuario.apellido,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontFamily: 'Poppins'),
                       overflow: TextOverflow.ellipsis,
                     ),
                   )
@@ -57,6 +67,7 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
             child: ListTile(
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(context, SlideRightRoute(page: PerfilPage()));
               },
               title: Text(
                 "Perfil",

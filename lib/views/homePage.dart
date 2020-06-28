@@ -1,8 +1,8 @@
 import 'package:app_reservar_horario/bloc/cartasRestauranteBloc.dart';
 import 'package:app_reservar_horario/bloc/chipsBloc.dart';
 import 'package:app_reservar_horario/classes/Restaurante.dart';
+import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/classes/categoria.dart';
-import 'package:app_reservar_horario/classes/usuario.dart';
 import 'package:app_reservar_horario/components/myDrawer.dart';
 import 'package:app_reservar_horario/model/funciones.dart';
 import 'package:app_reservar_horario/pageTransactions/slideRight.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/rendering.dart';
 import 'restauranteDetallePage.dart';
 
 class HomePage extends StatefulWidget {
-  Usuario usr;
+  final Usuario usr;
   HomePage({Key key, this.usr}) : super(key: key);
 
   @override
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MyCustomDrawer(),
+      drawer: MyCustomDrawer(_usuario),
       appBar: myAppBar(),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -70,13 +70,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              /*  Container(
-               
-                width: double.infinity,
-                alignment: Alignment.topCenter,
-                height: 60,
-                child: myChipsCategorias(),
-              ),  */
+              
               Container(
                 padding: EdgeInsets.only(bottom: 25),
                 height: MediaQuery.of(context).size.height -
@@ -122,9 +116,8 @@ class _HomePageState extends State<HomePage> {
         builder:
             (BuildContext context, AsyncSnapshot<List<Restaurante>> snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data.length.toString());
             //For para añadir cada widget a una lista y devolverlo como una columna
-            print("object");
+            
             return Container(
               height: 50,
               child: ListView.builder(
