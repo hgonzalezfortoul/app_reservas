@@ -2,8 +2,10 @@ import 'package:app_reservar_horario/classes/Plato.dart';
 import 'package:app_reservar_horario/classes/Restaurante.dart';
 import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/model/funciones.dart';
+import 'package:app_reservar_horario/pageTransactions/slideRight.dart';
 import 'package:app_reservar_horario/styles/color.dart';
 import 'package:app_reservar_horario/views/homePage.dart';
+import 'package:app_reservar_horario/views/reservacionPage.dart';
 import 'package:flutter/material.dart';
 
 class RestauranteDetallePage extends StatefulWidget {
@@ -231,7 +233,16 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                       constraints: BoxConstraints(maxWidth: 600),
                       child: MaterialButton(
                         height: 50,
-                        onPressed: () {},
+                        onPressed: () {
+                         Navigator.push(
+                              context,
+                              SlideRightRoute(
+                                  page: ReservacionPage(usr: usr,restaurante: restaurante,)));
+
+                          setState(() {
+                            
+                          });
+                        },
                         child: Text(
                           "HACER RESERVA",
                           style: TextStyle(color: Colors.white, fontSize: 20),
