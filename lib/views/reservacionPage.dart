@@ -2,6 +2,7 @@ import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/classes/Restaurante.dart';
 import 'package:app_reservar_horario/styles/color.dart';
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class ReservacionPage extends StatefulWidget {
   Usuario usr;
@@ -16,8 +17,12 @@ class ReservacionPage extends StatefulWidget {
 class _ReservacionPageState extends State<ReservacionPage> {
   Usuario _usr;
   Restaurante _restaurante;
+  var _selectedLocation = '1';
+  var _horaSeleccionada;
+  CalendarController _calendarioController = CalendarController();
+
   _ReservacionPageState(this._usr, this._restaurante);
-  var _selectedLocation = 'One';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,6 +51,7 @@ class _ReservacionPageState extends State<ReservacionPage> {
           height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               children: <Widget>[
                 Container(
@@ -79,8 +85,20 @@ class _ReservacionPageState extends State<ReservacionPage> {
                             _selectedLocation = newValue;
                           });
                         },
-                        items: <String>['One', 'Two', 'Tree', 'Four']
-                            .map<DropdownMenuItem<String>>((String value) {
+                        items: <String>[
+                          '1',
+                          '2',
+                          '3',
+                          '4',
+                          '5',
+                          '6',
+                          '7',
+                          '8',
+                          '9',
+                          '10',
+                          '11',
+                          '12'
+                        ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -89,11 +107,89 @@ class _ReservacionPageState extends State<ReservacionPage> {
                       ),
                     ),
                   ),
+                ),
+                _calendario(),
+                Container(
+                  child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 15.0,
+                          mainAxisSpacing: 15.0,
+                          childAspectRatio: 1.8),
+                      shrinkWrap: true,
+                      padding: EdgeInsets.only(bottom: 20),
+                      itemCount: 20,
+                      itemBuilder: (context, index) {
+                        return MaterialButton(
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          height: 10,
+                          onPressed: () {
+                            setState(() {
+                              _horaSeleccionada = index;
+                            });
+                          },
+                          child: Text("00:00", style: TextStyle(color: _horaSeleccionada == index?Colors.white:Colors.black,)),
+                          color: _horaSeleccionada == index
+                              ? MyColors().colorPrimario
+                              : MyColors().colorFondo,
+                        );
+                      }),
+                ),
+                Container(
+                  padding: EdgeInsets.only(bottom: 20),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  constraints: BoxConstraints(maxWidth: 600),
+                  child: MaterialButton(
+                    height: 50,
+                    onPressed: () {},
+                    child: Text(
+                      "HACER RESERVA",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    color: MyColors().colorPrimario,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                  ),
                 )
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _calendario() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 15),
+      color: MyColors().colorGrisClaro,
+      child: TableCalendar(
+        onDaySelected: (dia, events) {
+          print(dia.day.toString() +
+              '/' +
+              dia.month.toString() +
+              '/' +
+              dia.year.toString());
+        },
+        calendarController: _calendarioController,
+        startDay: DateTime.now(),
+        calendarStyle: CalendarStyle(
+            outsideDaysVisible: false,
+            weekendStyle: TextStyle().copyWith(
+              color: MyColors().colorSecundario,
+            ),
+            selectedColor: MyColors().colorPrimario,
+            todayColor: Colors.red[200]),
+        initialCalendarFormat: CalendarFormat.week,
+        availableCalendarFormats: const {
+          CalendarFormat.week: 'Semana',
+          CalendarFormat.twoWeeks: '2 Semanas',
+          CalendarFormat.month: 'Mes'
+        },
       ),
     );
   }

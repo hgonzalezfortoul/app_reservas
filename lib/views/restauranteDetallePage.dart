@@ -40,10 +40,9 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                 color: Colors.black87,
               ),
               onPressed: () {
-                
-               setState(() {
-                 Navigator.pop(context, true);
-               });
+                setState(() {
+                  Navigator.pop(context, true);
+                });
               },
             ),
             elevation: 0,
@@ -234,14 +233,15 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                       child: MaterialButton(
                         height: 50,
                         onPressed: () {
-                         Navigator.push(
+                          Navigator.push(
                               context,
                               SlideRightRoute(
-                                  page: ReservacionPage(usr: usr,restaurante: restaurante,)));
+                                  page: ReservacionPage(
+                                usr: usr,
+                                restaurante: restaurante,
+                              )));
 
-                          setState(() {
-                            
-                          });
+                          setState(() {});
                         },
                         child: Text(
                           "HACER RESERVA",

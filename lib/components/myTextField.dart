@@ -35,7 +35,7 @@ class MyCustomTextField extends StatelessWidget {
     return Theme(
       data: ThemeData(cursorColor: _colorPrimario),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: 10),
         width: MediaQuery.of(context).size.width * 0.8,
         constraints: BoxConstraints(maxWidth: 600),
         decoration: BoxDecoration(
