@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:app_reservar_horario/classes/Cita.dart';
 import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/classes/Restaurante.dart';
 import 'package:app_reservar_horario/styles/color.dart';
@@ -17,11 +20,23 @@ class ReservacionPage extends StatefulWidget {
 class _ReservacionPageState extends State<ReservacionPage> {
   Usuario _usr;
   Restaurante _restaurante;
-  var _selectedLocation = '1';
+  var _personasSeleccionadas = '11';
   var _horaSeleccionada;
   CalendarController _calendarioController = CalendarController();
+  var _horaInicio = 6;
+  var _horaFin = 13;
+  var _horasTotal = 1;
+  List<String> listaHoras = new List<String>();
 
-  _ReservacionPageState(this._usr, this._restaurante);
+  _ReservacionPageState(usr, restaurante) {
+    this._usr = usr;
+    this._restaurante = restaurante;
+    this._horasTotal = this._horaFin - this._horaInicio;
+    for (var i = 0; i <= _horasTotal; i++) {
+      listaHoras.add((_horaInicio + i).toString() + ":00");
+      listaHoras.add((_horaInicio + i).toString() + ":30");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +90,14 @@ class _ReservacionPageState extends State<ReservacionPage> {
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
-                        value: _selectedLocation,
+                        value: _personasSeleccionadas,
                         iconEnabledColor: MyColors().colorPrimario,
                         iconSize: 24,
                         style: TextStyle(
                             fontSize: 18, color: MyColors().colorGrisOscuro),
                         onChanged: (String newValue) {
                           setState(() {
-                            _selectedLocation = newValue;
+                            _personasSeleccionadas = newValue;
                           });
                         },
                         items: <String>[
@@ -119,8 +134,9 @@ class _ReservacionPageState extends State<ReservacionPage> {
                           childAspectRatio: 1.8),
                       shrinkWrap: true,
                       padding: EdgeInsets.only(bottom: 20),
-                      itemCount: 20,
+                      itemCount: (_horasTotal) * 2,
                       itemBuilder: (context, index) {
+                        _horaInicio++;
                         return MaterialButton(
                           elevation: 5,
                           shape: RoundedRectangleBorder(
@@ -131,7 +147,12 @@ class _ReservacionPageState extends State<ReservacionPage> {
                               _horaSeleccionada = index;
                             });
                           },
-                          child: Text("00:00", style: TextStyle(color: _horaSeleccionada == index?Colors.white:Colors.black,)),
+                          child: Text(listaHoras[index],
+                              style: TextStyle(
+                                color: _horaSeleccionada == index
+                                    ? Colors.white
+                                    : Colors.black,
+                              )),
                           color: _horaSeleccionada == index
                               ? MyColors().colorPrimario
                               : MyColors().colorFondo,
@@ -144,7 +165,72 @@ class _ReservacionPageState extends State<ReservacionPage> {
                   constraints: BoxConstraints(maxWidth: 600),
                   child: MaterialButton(
                     height: 50,
-                    onPressed: () {},
+                    onPressed: () {
+                      var hora = listaHoras[_horaSeleccionada].split(':');
+                      DateTime fecha = new DateTime(
+                          _calendarioController.selectedDay.year,
+                          _calendarioController.selectedDay.month,
+                          _calendarioController.selectedDay.day,
+                          int.parse(hora[0]),
+                          int.parse(hora[1]));
+
+                      Cita cita = new Cita();
+                      cita.fecha = fecha;
+                      cita.personas = int.parse(_personasSeleccionadas);
+                      cita.restaurante = _restaurante;
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                                title: Text(
+                                    '¿Desea realizar la siguiente reserva?'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Personas: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(cita.personas.toString())
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Fecha: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(_calendarioController
+                                                .selectedDay.day
+                                                .toString() +
+                                            '/' +
+                                            _calendarioController
+                                                .selectedDay.month
+                                                .toString() +
+                                            '/' +
+                                            _calendarioController
+                                                .selectedDay.year
+                                                .toString())
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Hora: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(hora[0] + ':' + hora[1])
+                                      ],
+                                    )
+                                  ],
+                                ));
+                          });
+                    },
                     child: Text(
                       "HACER RESERVA",
                       style: TextStyle(color: Colors.white, fontSize: 20),
