@@ -1,4 +1,5 @@
 import 'package:app_reservar_horario/classes/Carta.dart';
+import 'package:app_reservar_horario/classes/Cita.dart';
 import 'package:flutter/material.dart';
 
 class Restaurante {
@@ -6,8 +7,10 @@ class Restaurante {
   int _valoracion, _numeroTelefono, _id;
   String _imagen, _nombre, _direccion, _categoria;
   List<Carta> _cartas;
-
+  List<Cita> _citas;
   //Constructor
+
+
   Restaurante(
       {@required id,
       @required nombre,
@@ -15,7 +18,8 @@ class Restaurante {
       @required valoracion,
       @required cartas,
       @required categoria,
-      @required imagen}) {
+      @required imagen,
+      citas}) {
     this._id = id;
     this._nombre = nombre;
     this._distancia = distancia;
@@ -23,7 +27,10 @@ class Restaurante {
     this._cartas = cartas;
     this._categoria = categoria;
     this._imagen = imagen;
+    this._citas=citas;
   }
+
+  Restaurante.ini();
 
   //Getter
   String get nombre => _nombre;
@@ -33,6 +40,7 @@ class Restaurante {
   List<Carta> get cartas => _cartas;
   String get categoria => _categoria;
   String get imagen => _imagen;
+  List<Cita> get citas => _citas;
 
   //Setter
 
@@ -64,9 +72,15 @@ class Restaurante {
     this._imagen = imagen;
   }
 
+  set cita(cita){
+    this._citas=cita;
+
+  }
+
+  addCita(valor){
+    this._citas.add(valor);
+  }
   
-
-
 
   
 }

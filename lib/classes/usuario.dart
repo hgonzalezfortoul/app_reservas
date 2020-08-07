@@ -17,10 +17,11 @@ class Usuario {
     this._nombre = nombre;
     this._apellido = apellido;
     this._correo = correo;
-    this._citas = citas;
+    this._citas = citas ?? List<Cita>();
     this._favoritos = favoritos;
     this._image = image;
   }
+  Usuario.ini();
 
   //Getters
   String get nombre => _nombre;
@@ -53,5 +54,23 @@ class Usuario {
 
   set favoritos(favoritos) {
     this._favoritos = favoritos;
+  }
+
+  addCita(Cita valor) {
+    if (this._citas == null) {
+      this._citas = new List<Cita>();
+    }
+    this._citas.add(valor);
+  }
+
+  void verCitas() {
+    for (var item in this._citas) {
+     
+      print(item.personas.toString());
+      print(item.restaurante.nombre);
+      print(item.usuario.nombre);
+      print(item.hora);
+      print(item.fecha);
+    }
   }
 }

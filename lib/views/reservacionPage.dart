@@ -18,9 +18,10 @@ class ReservacionPage extends StatefulWidget {
 }
 
 class _ReservacionPageState extends State<ReservacionPage> {
+  var _diaHoy = new DateTime.now();
   Usuario _usr;
   Restaurante _restaurante;
-  var _personasSeleccionadas = '11';
+  var _personasSeleccionadas = '1';
   var _horaSeleccionada;
   CalendarController _calendarioController = CalendarController();
   var _horaInicio = 6;
@@ -124,41 +125,44 @@ class _ReservacionPageState extends State<ReservacionPage> {
                   ),
                 ),
                 _calendario(),
-                Container(
-                  child: GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 15.0,
-                          mainAxisSpacing: 15.0,
-                          childAspectRatio: 1.8),
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(bottom: 20),
-                      itemCount: (_horasTotal) * 2,
-                      itemBuilder: (context, index) {
-                        _horaInicio++;
-                        return MaterialButton(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          height: 10,
-                          onPressed: () {
-                            setState(() {
-                              _horaSeleccionada = index;
-                            });
-                          },
-                          child: Text(listaHoras[index],
-                              style: TextStyle(
+                _diaHoy.weekday != 6 && _diaHoy.weekday != 7
+                    ? Container(
+                        child: GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 15.0,
+                                    mainAxisSpacing: 15.0,
+                                    childAspectRatio: 1.8),
+                            shrinkWrap: true,
+                            padding: EdgeInsets.only(bottom: 20),
+                            itemCount: (_horasTotal) * 2,
+                            itemBuilder: (context, index) {
+                              _horaInicio++;
+                              return MaterialButton(
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                height: 10,
+                                onPressed: () {
+                                  setState(() {
+                                    _horaSeleccionada = index;
+                                  });
+                                },
+                                child: Text(listaHoras[index],
+                                    style: TextStyle(
+                                      color: _horaSeleccionada == index
+                                          ? Colors.white
+                                          : Colors.black,
+                                    )),
                                 color: _horaSeleccionada == index
-                                    ? Colors.white
-                                    : Colors.black,
-                              )),
-                          color: _horaSeleccionada == index
-                              ? MyColors().colorPrimario
-                              : MyColors().colorFondo,
-                        );
-                      }),
-                ),
+                                    ? MyColors().colorPrimario
+                                    : MyColors().colorFondo,
+                              );
+                            }),
+                      )
+                    : Container(),
                 Container(
                   padding: EdgeInsets.only(bottom: 20),
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -182,53 +186,126 @@ class _ReservacionPageState extends State<ReservacionPage> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                                title: Text(
-                                    '¿Desea realizar la siguiente reserva?'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Personas: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(cita.personas.toString())
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Fecha: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(_calendarioController
-                                                .selectedDay.day
-                                                .toString() +
-                                            '/' +
-                                            _calendarioController
-                                                .selectedDay.month
-                                                .toString() +
-                                            '/' +
-                                            _calendarioController
-                                                .selectedDay.year
-                                                .toString())
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Hora: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(hora[0] + ':' + hora[1])
-                                      ],
-                                    )
-                                  ],
-                                ));
+                              title:
+                                  Text('¿Desea realizar la siguiente reserva?'),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Personas: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(cita.personas.toString())
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Fecha: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(_calendarioController
+                                              .selectedDay.day
+                                              .toString() +
+                                          '/' +
+                                          _calendarioController
+                                              .selectedDay.month
+                                              .toString() +
+                                          '/' +
+                                          _calendarioController.selectedDay.year
+                                              .toString())
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Hora: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(hora[0] + ':' + hora[1])
+                                    ],
+                                  )
+                                ],
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "CANCELAR",
+                                    style: TextStyle(
+                                        color: MyColors().colorPrimario),
+                                  ),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    var cita = new Cita();
+                                    cita.fecha =
+                                        _calendarioController.selectedDay;
+                                    cita.personas =
+                                        int.parse(_personasSeleccionadas);
+                                    cita.hora = hora[0] + ':' + hora[1];
+                                    cita.usuario = _usr;
+                                    cita.restaurante = _restaurante;
+                                    _usr.addCita(cita);
+                                    Navigator.of(context).pop();
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            actionsOverflowButtonSpacing: 0,
+                                            title: Text(
+                                                'Su reserva se ha enviado correctamente'),
+                                            content: Text(
+                                                'El restaurante confirmará su reserva lo antes posible'),
+                                            actions: <Widget>[
+                                              FlatButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(
+                                                    'ACEPTAR',
+                                                    style: TextStyle(
+                                                        color: MyColors()
+                                                            .colorPrimario,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ))
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Text(
+                                    "ACEPTAR",
+                                    style: TextStyle(
+                                        color: MyColors().colorPrimario,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    this._usr.verCitas();
+                                  },
+                                  child: Text(
+                                    "CITAS",
+                                    style: TextStyle(
+                                        color: MyColors().colorPrimario,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            );
                           });
                     },
                     child: Text(
@@ -255,11 +332,14 @@ class _ReservacionPageState extends State<ReservacionPage> {
       color: MyColors().colorGrisClaro,
       child: TableCalendar(
         onDaySelected: (dia, events) {
-          print(dia.day.toString() +
-              '/' +
-              dia.month.toString() +
-              '/' +
-              dia.year.toString());
+          setState(() {
+            print(dia.day.toString() +
+                '/' +
+                dia.month.toString() +
+                '/' +
+                dia.year.toString());
+            _diaHoy = dia;
+          });
         },
         calendarController: _calendarioController,
         startDay: DateTime.now(),

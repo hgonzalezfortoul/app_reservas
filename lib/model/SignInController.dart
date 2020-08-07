@@ -20,7 +20,7 @@ class SignInController {
           nombre: "Hernan",
           apellido: "Gonzalez",
           correo: correo,
-          citas: [Cita(fecha: DateTime.now(), restaurante: restaurante)],
+          
           favoritos: [],
           image: 'assets/img/profile-example.jpg');
       Navigator.pushReplacement(contexto,
