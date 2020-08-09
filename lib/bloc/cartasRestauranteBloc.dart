@@ -30,7 +30,7 @@ class CartasRestauranteBloc {
         valoracion: 5,
         cartas: listaCartas1,
         categoria: "Internacional",
-        imagen: 'assets/img/la-rollerie.jpg'),
+        imagen: 'assets/img/la-rollerie.jpg', direccion: "Calle nombre de la calle, numero 1"),
     Restaurante(
         id: 2,
         nombre: "El Mediterraneo",
@@ -38,7 +38,7 @@ class CartasRestauranteBloc {
         valoracion: 5,
         cartas: listaCartas1,
         categoria: "Mediterraneo",
-        imagen: 'assets/img/mediterraneo.jpg'),
+        imagen: 'assets/img/mediterraneo.jpg', direccion: "Calle nombre de la calle, numero 1"),
     Restaurante(
         id: 3,
         nombre: "Mr Lupin",
@@ -46,7 +46,7 @@ class CartasRestauranteBloc {
         valoracion: 4,
         cartas: listaCartas1,
         categoria: "Italiana",
-        imagen: 'assets/img/mr-lupin.jpg'),
+        imagen: 'assets/img/mr-lupin.jpg', direccion: "Calle nombre de la calle, numero 1"),
     Restaurante(
         id: 4,
         nombre: "Gramabar",
@@ -54,7 +54,7 @@ class CartasRestauranteBloc {
         valoracion: 3,
         cartas: listaCartas1,
         categoria: "Venezolana",
-        imagen: 'assets/img/gramabar.jpg'),
+        imagen: 'assets/img/gramabar.jpg', direccion: "Calle nombre de la calle, numero 1"),
     Restaurante(
         id: 5,
         nombre: "Lara Grill",
@@ -62,7 +62,7 @@ class CartasRestauranteBloc {
         valoracion: 2,
         cartas: listaCartas1,
         categoria: "Venezolana",
-        imagen: 'assets/img/laragrill.jpg'),
+        imagen: 'assets/img/laragrill.jpg', direccion: "Calle nombre de la calle, numero 1"),
   ];
 
   //Stream Controller

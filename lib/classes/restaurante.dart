@@ -15,11 +15,13 @@ class Restaurante {
       {@required id,
       @required nombre,
       @required distancia,
+      
       @required valoracion,
       @required cartas,
       @required categoria,
       @required imagen,
-      citas}) {
+      citas,
+      @required direccion}) {
     this._id = id;
     this._nombre = nombre;
     this._distancia = distancia;
@@ -28,6 +30,7 @@ class Restaurante {
     this._categoria = categoria;
     this._imagen = imagen;
     this._citas=citas;
+    this._direccion=direccion;
   }
 
   Restaurante.ini();
@@ -41,6 +44,7 @@ class Restaurante {
   String get categoria => _categoria;
   String get imagen => _imagen;
   List<Cita> get citas => _citas;
+  String get direccion => _direccion;
 
   //Setter
 
@@ -75,6 +79,10 @@ class Restaurante {
   set cita(cita){
     this._citas=cita;
 
+  }
+
+  set direccion(direccion){
+    this._direccion=direccion;
   }
 
   addCita(valor){

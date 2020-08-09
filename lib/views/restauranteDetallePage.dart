@@ -199,7 +199,6 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                     Container(
                       padding: EdgeInsets.only(top: 20, bottom: 30),
                       constraints: BoxConstraints(maxWidth: 60),
-                      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                       child: MaterialButton(
                         height: 50,
                         onPressed: () {

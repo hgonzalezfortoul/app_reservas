@@ -1,5 +1,6 @@
 import 'package:app_reservar_horario/classes/Restaurante.dart';
 import 'package:app_reservar_horario/classes/Usuario.dart';
+import 'package:app_reservar_horario/model/Funciones.dart';
 import 'package:app_reservar_horario/styles/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -45,18 +46,16 @@ class PerfilPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: const EdgeInsets.only(bottom: 8.0),
-                  padding: EdgeInsets.only(bottom: 10, top: 20),
+                  margin: const EdgeInsets.only(
+                      bottom: 8.0, top: 10, left: 20, right: 20),
+                  padding: EdgeInsets.only(bottom: 30, top: 20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(50),
-                      bottomRight: Radius.circular(50),
-                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(13)),
                     boxShadow: [
                       BoxShadow(
                         spreadRadius: 0.0,
                         color: Colors.grey,
-                        offset: Offset(0.0, 4.0), //(x,y)
+                        offset: Offset(0.0, 3.0), //(x,y)
                         blurRadius: 3.0,
                       )
                     ],
@@ -92,7 +91,7 @@ class PerfilPage extends StatelessWidget {
                       Text(
                         this.usuario.nombre + " " + this.usuario.apellido,
                         style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 20,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500),
                         overflow: TextOverflow.ellipsis,
@@ -108,30 +107,6 @@ class PerfilPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  child: Text(
-                    "Reservas",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500),
-                  ),
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(left: 20, top: 15),
-                ),
-                this.usuario.citas != null
-                    ? listaReservas(context)
-                    : Container(
-                        height: 100,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Aun no tienes ninguna reserva",
-                          style: TextStyle(
-                              color: MyColors().colorGrisNoTanClaro,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'HindGuntur'),
-                        ),
-                      ),
                 Container(
                   child: Text(
                     "Restaurantes Favoritos",
@@ -165,8 +140,9 @@ class PerfilPage extends StatelessWidget {
   }
 
   Container listaFavoritos(BuildContext context) {
+    Funciones funciones = new Funciones();
     return Container(
-      height: 250,
+      height: 420,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
           itemCount: usuario.favoritos.length,
@@ -175,12 +151,82 @@ class PerfilPage extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             Restaurante restaurante = this.usuario.favoritos[index];
             return Container(
-              padding: EdgeInsets.all(20),
+              margin: EdgeInsets.all(20),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: MyColors().colorFondo,
+                boxShadow: [
+                      BoxShadow(
+                        spreadRadius: 0.0,
+                        color: Colors.grey,
+                        offset: Offset(0.0, 3.0), //(x,y)
+                        blurRadius: 3.0,
+                      )
+                    ],
+              ),
               child: Column(
                 children: <Widget>[
                   Container(
-                    height: 160,
                     width: 230,
+                    alignment: Alignment.centerLeft,
+                    padding:
+                        EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 0),
+                    child: Text(
+                      restaurante.nombre,
+                      maxLines: 1,overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 210,
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Row(
+                        children:
+                            funciones.getValoracion(restaurante.valoracion)),
+                  ),
+                  Container(
+                    width: 210,
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(right: 5),
+                          child: Icon(
+                            Icons.location_on,
+                            color: MyColors().colorGris,
+                            size: 25,
+                            
+                          ),
+                        ),
+                        Container(
+                          width: 180,
+                            child: Text(
+                              
+                              usuario.favoritos[index].direccion,
+                              style: TextStyle(
+                                height: 1.2,
+                                fontSize: 16,
+                                color: MyColors().colorGris,
+                                fontFamily: "HindGuntur",
+                                fontWeight: FontWeight.w400,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                            ))
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 180,
+                    width: 210,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
@@ -197,19 +243,23 @@ class PerfilPage extends StatelessWidget {
                         image: AssetImage(
                           this.usuario.favoritos[index].imagen,
                         ),
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   Container(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text(
-                        restaurante.nombre,
-                        style: TextStyle(
-                            fontFamily: 'HindGuntur',
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ))
+                    width: 210,
+                    margin: EdgeInsets.only(top: 10),
+                    child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        color: MyColors().colorPrimario,
+                        onPressed: () {},
+                        child: Text(
+                          'ELIMINAR',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                  )
                 ],
               ),
             );
@@ -226,9 +276,9 @@ class PerfilPage extends StatelessWidget {
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            String fecha =
-                DateFormat.MMMMd('es_ES').format(this.usuario.citas[0].fecha);
-            Restaurante restaurante = this.usuario.citas[0].restaurante;
+            String fecha = DateFormat.MMMMd('es_ES')
+                .format(this.usuario.citas[index].fecha);
+            Restaurante restaurante = this.usuario.citas[index].restaurante;
 
             return Container(
               width: 170,

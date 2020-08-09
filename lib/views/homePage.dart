@@ -157,6 +157,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 fit: BoxFit.cover,
                               ),
+                              //INFO RESTAURANTE
                               Positioned(
                                 bottom: 0,
                                 left: 20,
