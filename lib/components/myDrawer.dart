@@ -3,6 +3,7 @@ import 'package:app_reservar_horario/main.dart';
 import 'package:app_reservar_horario/pageTransactions/slideRight.dart';
 import 'package:app_reservar_horario/styles/color.dart';
 import 'package:app_reservar_horario/views/perfilPage.dart';
+import 'package:app_reservar_horario/views/reservasPage.dart';
 import 'package:flutter/material.dart';
 
 class MyCustomDrawer extends StatefulWidget {
@@ -93,6 +94,8 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
             child: ListTile(
               onTap: () {
                 Navigator.pop(context);
+                Navigator.push(context,
+                    SlideRightRoute(page: ReservasPage(usuario: this.usuario)));
               },
               title: Text(
                 "Reservas",
