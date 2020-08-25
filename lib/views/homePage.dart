@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("Entro home");
     return Scaffold(
       drawer: MyCustomDrawer(_usuario),
       appBar: myAppBar(),
@@ -238,12 +239,12 @@ class _HomePageState extends State<HomePage> {
                                   child: _usuario.favoritos
                                           .contains(snapshot.data[index])
                                       ? Icon(
-                                          Icons.favorite,
+                                          Icons.bookmark,
                                           size: 30,
-                                          color: Colors.redAccent,
+                                          color: MyColors().colorPrimario,
                                         )
                                       : Icon(
-                                          Icons.favorite_border,
+                                          Icons.bookmark_border,
                                           size: 30,
                                           color: Colors.grey,
                                         ),
@@ -260,9 +261,7 @@ class _HomePageState extends State<HomePage> {
                                   page: RestauranteDetallePage(
                                       _usuario, snapshot.data[index])));
 
-                          setState(() {
-                            
-                          });
+                          setState(() {});
                         },
                       );
                     }

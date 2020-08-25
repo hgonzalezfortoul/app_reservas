@@ -67,7 +67,7 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
             padding: EdgeInsets.only(left: 20),
             child: ListTile(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context,true);
                 Navigator.push(context,
                     SlideRightRoute(page: PerfilPage(usuario: this.usuario)));
               },
@@ -93,7 +93,8 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
             padding: EdgeInsets.only(left: 20),
             child: ListTile(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context,true);
+                  
                 Navigator.push(context,
                     SlideRightRoute(page: ReservasPage(usuario: this.usuario)));
               },

@@ -26,9 +26,9 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
   Funciones funciones = new Funciones();
 
   _RestauranteDetallePageState(this.usr, this.restaurante);
-
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
@@ -212,11 +212,11 @@ class _RestauranteDetallePageState extends State<RestauranteDetallePage> {
                         },
                         child: usr.favoritos.contains(restaurante)
                             ? Icon(
-                                Icons.favorite,
-                                color: Colors.redAccent,
+                                Icons.bookmark,
+                                color: MyColors().colorPrimario,
                               )
                             : Icon(
-                                Icons.favorite_border,
+                                Icons.bookmark_border,
                                 color: Colors.grey,
                               ),
                         color: Colors.white,

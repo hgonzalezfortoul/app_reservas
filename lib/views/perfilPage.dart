@@ -5,9 +5,15 @@ import 'package:app_reservar_horario/styles/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class PerfilPage extends StatelessWidget {
+class PerfilPage extends StatefulWidget {
   final Usuario usuario;
   PerfilPage({this.usuario});
+
+  @override
+  _PerfilPageState createState() => _PerfilPageState();
+}
+
+class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,7 +28,10 @@ class PerfilPage extends StatelessWidget {
               color: Colors.black87,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              setState(() {
+
+              Navigator.pop(context, true);
+              });
             },
           ),
           actions: <Widget>[
@@ -83,13 +92,13 @@ class PerfilPage extends StatelessWidget {
                             ]),
                         child: CircleAvatar(
                           backgroundImage: AssetImage(
-                            this.usuario.image,
+                            this.widget.usuario.image,
                           ),
                           radius: 45,
                         ),
                       ),
                       Text(
-                        this.usuario.nombre + " " + this.usuario.apellido,
+                        this.widget.usuario.nombre + " " + this.widget.usuario.apellido,
                         style: TextStyle(
                             fontSize: 20,
                             fontFamily: 'Poppins',
@@ -97,7 +106,7 @@ class PerfilPage extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        this.usuario.correo,
+                        this.widget.usuario.correo,
                         style: TextStyle(
                             fontSize: 17,
                             fontFamily: 'HindGuntur',
@@ -118,7 +127,7 @@ class PerfilPage extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(left: 20, top: 15),
                 ),
-                this.usuario.favoritos != null
+                this.widget.usuario.favoritos != null
                     ? listaFavoritos(context)
                     : Container(
                         height: 100,
@@ -145,11 +154,11 @@ class PerfilPage extends StatelessWidget {
       height: 420,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
-          itemCount: usuario.favoritos.length,
+          itemCount: widget.usuario.favoritos.length,
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
-            Restaurante restaurante = this.usuario.favoritos[index];
+            Restaurante restaurante = this.widget.usuario.favoritos[index];
             return Container(
               margin: EdgeInsets.all(20),
               padding: EdgeInsets.all(10),
@@ -209,7 +218,7 @@ class PerfilPage extends StatelessWidget {
                           width: 180,
                             child: Text(
                               
-                              usuario.favoritos[index].direccion,
+                              widget.usuario.favoritos[index].direccion,
                               style: TextStyle(
                                 height: 1.2,
                                 fontSize: 16,
@@ -241,7 +250,7 @@ class PerfilPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: Image(
                         image: AssetImage(
-                          this.usuario.favoritos[index].imagen,
+                          this.widget.usuario.favoritos[index].imagen,
                         ),
                         fit: BoxFit.cover,
                       ),
@@ -254,7 +263,12 @@ class PerfilPage extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                         color: MyColors().colorPrimario,
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            
+                          widget.usuario.favoritos.removeAt(index);
+                          });
+                        },
                         child: Text(
                           'ELIMINAR',
                           style: TextStyle(color: Colors.white),
@@ -272,13 +286,13 @@ class PerfilPage extends StatelessWidget {
       height: 140,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
-          itemCount: this.usuario.citas.length,
+          itemCount: this.widget.usuario.citas.length,
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             String fecha = DateFormat.MMMMd('es_ES')
-                .format(this.usuario.citas[index].fecha);
-            Restaurante restaurante = this.usuario.citas[index].restaurante;
+                .format(this.widget.usuario.citas[index].fecha);
+            Restaurante restaurante = this.widget.usuario.citas[index].restaurante;
 
             return Container(
               width: 170,

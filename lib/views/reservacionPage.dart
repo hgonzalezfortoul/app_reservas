@@ -255,6 +255,7 @@ class _ReservacionPageState extends State<ReservacionPage> {
                                     cita.hora = hora[0] + ':' + hora[1];
                                     cita.usuario = _usr;
                                     cita.restaurante = _restaurante;
+                                    cita.estado = 'Pendiente';
                                     _usr.addCita(cita);
                                     Navigator.of(context).pop();
                                     showDialog(
