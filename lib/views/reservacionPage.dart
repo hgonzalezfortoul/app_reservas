@@ -125,7 +125,7 @@ class _ReservacionPageState extends State<ReservacionPage> {
                   ),
                 ),
                 _calendario(),
-                _diaHoy.weekday != 6 && _diaHoy.weekday != 7
+                _diaHoy.weekday != 8 && _diaHoy.weekday != 7
                     ? Container(
                         child: GridView.builder(
                             physics: NeverScrollableScrollPhysics(),
@@ -242,7 +242,7 @@ class _ReservacionPageState extends State<ReservacionPage> {
                                   child: Text(
                                     "CANCELAR",
                                     style: TextStyle(
-                                        color: MyColors().colorPrimario),
+                                        color: MyColors().colorGris),
                                   ),
                                 ),
                                 FlatButton(
@@ -291,20 +291,10 @@ class _ReservacionPageState extends State<ReservacionPage> {
                                     "ACEPTAR",
                                     style: TextStyle(
                                         color: MyColors().colorPrimario,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.w900),
                                   ),
                                 ),
-                                FlatButton(
-                                  onPressed: () {
-                                    this._usr.verCitas();
-                                  },
-                                  child: Text(
-                                    "CITAS",
-                                    style: TextStyle(
-                                        color: MyColors().colorPrimario,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                )
+                                
                               ],
                             );
                           });

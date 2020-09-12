@@ -28,7 +28,7 @@ class _ReservasPageState extends State<ReservasPage> {
   _ReservasPageState(Usuario usuario) {
     this._usuario = usuario;
     listaCitas = _usuario.citas;
-    
+
     _calendarKey = new GlobalKey();
   }
 
@@ -36,23 +36,27 @@ class _ReservasPageState extends State<ReservasPage> {
   Future<void> initState() {
     super.initState();
     _eventos = {};
-    _selectedEvents = [];
+
     initEventos();
-   
   }
 
   initEventos() async {
     var fecha;
+    var fechaInicio = new DateTime.utc(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 12);
     for (Cita item in _usuario.citas) {
       //En el if se recoge todos los elementos de una fecha, solo entra si la fecha es diferente
       if (fecha != item.fecha) {
         fecha = item.fecha;
         //Fecha - Lista de elementos filtrado por fecha
-        print(fecha.toString());
+        print(fecha == fechaInicio);
         _eventos[item.fecha] =
             _usuario.citas.where((element) => element.fecha == fecha).toList();
       }
     }
+    _selectedEvents = _usuario.citas
+        .where((element) => element.fecha == fechaInicio)
+        .toList();
   }
 
   @override
@@ -78,12 +82,10 @@ class _ReservasPageState extends State<ReservasPage> {
         ),
         body: Container(
           height: MediaQuery.of(context).size.height,
-         
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             padding: EdgeInsets.only(bottom: 20),
             child: Column(
-              
               children: <Widget>[
                 /*  Container(
                                    width: double.maxFinite,
@@ -117,13 +119,12 @@ class _ReservasPageState extends State<ReservasPage> {
                   child: TableCalendar(
                     startingDayOfWeek: StartingDayOfWeek.monday,
                     formatAnimation: FormatAnimation.slide,
-                    
                     events: _eventos,
-                    
                     availableGestures: AvailableGestures.horizontalSwipe,
-
+                    
                     onDaySelected: (dia, events) {
                       setState(() {
+                        print(events.toList());
                         _selectedEvents = events;
                         print(dia.day.toString() +
                             '/' +
@@ -131,8 +132,6 @@ class _ReservasPageState extends State<ReservasPage> {
                             '/' +
                             dia.year.toString());
                         _diaHoy = dia;
-
-                        
                       });
                     },
                     calendarController: _calendarioController,
@@ -195,12 +194,147 @@ class _ReservasPageState extends State<ReservasPage> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            SlideRightRoute(
-                                page: RestauranteDetallePage(
-                                    _usuario, event.restaurante)));
-                        setState(() {});
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('Datos de la reserva'),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                actionsOverflowButtonSpacing: 0,
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Restaurante: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(event.restaurante.nombre)
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Fecha: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(event.fecha.day.toString() +
+                                            '/' +
+                                            event.fecha.month.toString() +
+                                            '/' +
+                                            event.fecha.year.toString())
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Hora: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(event.hora)
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Estado: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(event.estado + " "),
+                                        Container(
+                                          width: 5,
+                                          height: 15,
+                                          color: _estadoColores(event.estado),
+                                          margin: EdgeInsets.only(right: 20),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        'VOLVER',
+                                        style: TextStyle(
+                                          color: MyColors().colorGris,
+                                        ),
+                                      )),
+                                  FlatButton(
+                                      onPressed: () {
+                                         setState(() {
+                                                        });
+                                        Navigator.pop(context);
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                title: Text(
+                                                    '¿Seguro que quieres anular esta reserva?'),
+                                                actions: [
+                                                  FlatButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        'NO',
+                                                        style: TextStyle(
+                                                            color: MyColors()
+                                                                .colorPrimario),
+                                                      )),
+                                                  FlatButton(
+                                                      onPressed: () async {
+                                                        _usuario.citas
+                                                            .removeWhere(
+                                                                (item) =>
+                                                                    item ==
+                                                                    event);
+                                                        _selectedEvents
+                                                            .removeWhere(
+                                                                (element) =>
+                                                                    element ==
+                                                                    event);
+
+                                                         _eventos.removeWhere(
+                                                              (key, value) =>
+                                                                  value ==
+                                                                  event);
+                                                        setState(() {
+                                                        });
+                                                        
+                                                        Navigator.pop(context, true);
+                                                      },
+                                                      child: Text(
+                                                        'SI',
+                                                        style: TextStyle(
+                                                            color: MyColors()
+                                                                .colorPrimario),
+                                                      ))
+                                                ],
+                                              );
+                                            });
+                                      },
+                                      child: Text(
+                                        'ANULAR CITA',
+                                        style: TextStyle(
+                                            color: MyColors().colorPrimario,
+                                            fontWeight: FontWeight.w900),
+                                      ))
+                                ],
+                              );
+                            });
                       },
                     )),
               ],

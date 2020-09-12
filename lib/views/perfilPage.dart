@@ -1,7 +1,9 @@
 import 'package:app_reservar_horario/classes/Restaurante.dart';
 import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/model/Funciones.dart';
+import 'package:app_reservar_horario/pageTransactions/slideRight.dart';
 import 'package:app_reservar_horario/styles/color.dart';
+import 'package:app_reservar_horario/views/restauranteDetallePage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -29,8 +31,7 @@ class _PerfilPageState extends State<PerfilPage> {
             ),
             onPressed: () {
               setState(() {
-
-              Navigator.pop(context, true);
+                Navigator.pop(context, true);
               });
             },
           ),
@@ -98,7 +99,9 @@ class _PerfilPageState extends State<PerfilPage> {
                         ),
                       ),
                       Text(
-                        this.widget.usuario.nombre + " " + this.widget.usuario.apellido,
+                        this.widget.usuario.nombre +
+                            " " +
+                            this.widget.usuario.apellido,
                         style: TextStyle(
                             fontSize: 20,
                             fontFamily: 'Poppins',
@@ -128,7 +131,9 @@ class _PerfilPageState extends State<PerfilPage> {
                   margin: EdgeInsets.only(left: 20, top: 15),
                 ),
                 this.widget.usuario.favoritos != null
-                    ? listaFavoritos(context)
+                    ? listaFavoritos(
+                        context,
+                      )
                     : Container(
                         height: 100,
                         alignment: Alignment.center,
@@ -159,122 +164,129 @@ class _PerfilPageState extends State<PerfilPage> {
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             Restaurante restaurante = this.widget.usuario.favoritos[index];
-            return Container(
-              margin: EdgeInsets.all(20),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: MyColors().colorFondo,
-                boxShadow: [
-                      BoxShadow(
-                        spreadRadius: 0.0,
-                        color: Colors.grey,
-                        offset: Offset(0.0, 3.0), //(x,y)
-                        blurRadius: 3.0,
-                      )
-                    ],
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: 230,
-                    alignment: Alignment.centerLeft,
-                    padding:
-                        EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 0),
-                    child: Text(
-                      restaurante.nombre,
-                      maxLines: 1,overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    SlideRightRoute(
+                        page: RestauranteDetallePage(
+                            this.widget.usuario, restaurante)));
+              },
+              child: Container(
+                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: MyColors().colorFondo,
+                  boxShadow: [
+                    BoxShadow(
+                      spreadRadius: 0.0,
+                      color: Colors.grey,
+                      offset: Offset(0.0, 3.0), //(x,y)
+                      blurRadius: 3.0,
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: 230,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(
+                          top: 5, left: 10, right: 10, bottom: 0),
+                      child: Text(
+                        restaurante.nombre,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 210,
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                        children:
-                            funciones.getValoracion(restaurante.valoracion)),
-                  ),
-                  Container(
-                    width: 210,
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.location_on,
-                            color: MyColors().colorGris,
-                            size: 25,
-                            
+                    Container(
+                      width: 210,
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Row(
+                          children:
+                              funciones.getValoracion(restaurante.valoracion)),
+                    ),
+                    Container(
+                      width: 210,
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(right: 5),
+                            child: Icon(
+                              Icons.location_on,
+                              color: MyColors().colorGris,
+                              size: 25,
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: 180,
-                            child: Text(
-                              
-                              widget.usuario.favoritos[index].direccion,
-                              style: TextStyle(
-                                height: 1.2,
-                                fontSize: 16,
-                                color: MyColors().colorGris,
-                                fontFamily: "HindGuntur",
-                                fontWeight: FontWeight.w400,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                            ))
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 180,
-                    width: 210,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            spreadRadius: 0.0,
-                            color: Colors.grey,
-                            offset: Offset(0.0, 2.0), //(x,y)
-                            blurRadius: 6.0,
-                          )
-                        ]),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image(
-                        image: AssetImage(
-                          this.widget.usuario.favoritos[index].imagen,
-                        ),
-                        fit: BoxFit.cover,
+                          Container(
+                              width: 180,
+                              child: Text(
+                                widget.usuario.favoritos[index].direccion,
+                                style: TextStyle(
+                                  height: 1.2,
+                                  fontSize: 16,
+                                  color: MyColors().colorGris,
+                                  fontFamily: "HindGuntur",
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                              ))
+                        ],
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 210,
-                    margin: EdgeInsets.only(top: 10),
-                    child: MaterialButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                        color: MyColors().colorPrimario,
-                        onPressed: () {
-                          setState(() {
-                            
-                          widget.usuario.favoritos.removeAt(index);
-                          });
-                        },
-                        child: Text(
-                          'ELIMINAR',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                  )
-                ],
+                    Container(
+                      height: 180,
+                      width: 210,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 0.0,
+                              color: Colors.grey,
+                              offset: Offset(0.0, 2.0), //(x,y)
+                              blurRadius: 6.0,
+                            )
+                          ]),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image(
+                          image: AssetImage(
+                            this.widget.usuario.favoritos[index].imagen,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 210,
+                      margin: EdgeInsets.only(top: 10),
+                      child: MaterialButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          color: MyColors().colorPrimario,
+                          onPressed: () {
+                            setState(() {
+                              widget.usuario.favoritos.removeAt(index);
+                            });
+                          },
+                          child: Text(
+                            'ELIMINAR',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    )
+                  ],
+                ),
               ),
             );
           }),
@@ -292,7 +304,8 @@ class _PerfilPageState extends State<PerfilPage> {
           itemBuilder: (BuildContext context, int index) {
             String fecha = DateFormat.MMMMd('es_ES')
                 .format(this.widget.usuario.citas[index].fecha);
-            Restaurante restaurante = this.widget.usuario.citas[index].restaurante;
+            Restaurante restaurante =
+                this.widget.usuario.citas[index].restaurante;
 
             return Container(
               width: 170,
