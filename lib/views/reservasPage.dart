@@ -121,7 +121,6 @@ class _ReservasPageState extends State<ReservasPage> {
                     formatAnimation: FormatAnimation.slide,
                     events: _eventos,
                     availableGestures: AvailableGestures.horizontalSwipe,
-                    
                     onDaySelected: (dia, events) {
                       setState(() {
                         print(events.toList());
@@ -150,7 +149,8 @@ class _ReservasPageState extends State<ReservasPage> {
                   ),
                 ),
                 //Imprime los elementos
-                ..._selectedEvents.map((event) => GestureDetector(
+                ..._selectedEvents.map((event) =>
+                    /* GestureDetector(
                       child: Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 10),
                         padding:
@@ -265,13 +265,12 @@ class _ReservasPageState extends State<ReservasPage> {
                                       child: Text(
                                         'VOLVER',
                                         style: TextStyle(
-                                          color: MyColors().colorGris,
+                                          color: event.estado !="Anulado"?MyColors().colorGris:MyColors().colorPrimario,
                                         ),
                                       )),
-                                  FlatButton(
+                                  event.estado !="Anulado"? FlatButton(
                                       onPressed: () {
-                                         setState(() {
-                                                        });
+                                        setState(() {});
                                         Navigator.pop(context);
                                         showDialog(
                                             context: context,
@@ -286,7 +285,8 @@ class _ReservasPageState extends State<ReservasPage> {
                                                 actions: [
                                                   FlatButton(
                                                       onPressed: () {
-                                                        Navigator.pop(context);
+                                                        Navigator.pop(
+                                                            context, true);
                                                       },
                                                       child: Text(
                                                         'NO',
@@ -296,25 +296,12 @@ class _ReservasPageState extends State<ReservasPage> {
                                                       )),
                                                   FlatButton(
                                                       onPressed: () async {
-                                                        _usuario.citas
-                                                            .removeWhere(
-                                                                (item) =>
-                                                                    item ==
-                                                                    event);
-                                                        _selectedEvents
-                                                            .removeWhere(
-                                                                (element) =>
-                                                                    element ==
-                                                                    event);
+                                                        event.estado =
+                                                            "Anulado";
+                                                        setState(() {});
 
-                                                         _eventos.removeWhere(
-                                                              (key, value) =>
-                                                                  value ==
-                                                                  event);
-                                                        setState(() {
-                                                        });
-                                                        
-                                                        Navigator.pop(context, true);
+                                                        Navigator.pop(
+                                                            context, true);
                                                       },
                                                       child: Text(
                                                         'SI',
@@ -331,11 +318,129 @@ class _ReservasPageState extends State<ReservasPage> {
                                         style: TextStyle(
                                             color: MyColors().colorPrimario,
                                             fontWeight: FontWeight.w900),
-                                      ))
+                                      )):Container()
                                 ],
                               );
                             });
                       },
+                    ) */
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 20, top: 10),
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          Transform.rotate(
+                            angle: -1.58,
+                            child: Text(
+                                event.fecha.day.toString() +
+                                    " " +
+                                    convertidorMes(
+                                      event.fecha.month.toString(),
+                                    ),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black38,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                          Container(
+                              width: MediaQuery.of(context).size.width - 90,
+                              child: Card(
+                                child: Theme(
+                                  data: ThemeData(accentColor: Colors.black),
+                                  child: ExpansionTile(
+                                    title: Text(
+                                      event.restaurante.nombre,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: 17, bottom: 10),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(bottom: 5),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    'Fecha: ',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.grey),
+                                                  ),
+                                                  Text(event.fecha.day
+                                                          .toString() +
+                                                      '/' +
+                                                      event.fecha.month
+                                                          .toString() +
+                                                      '/' +
+                                                      event.fecha.year
+                                                          .toString())
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(bottom: 5),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    'Hora: ',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.grey),
+                                                  ),
+                                                  Text(event.hora)
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(bottom: 5),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    'Personas: ',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.grey),
+                                                  ),
+                                                  Text(
+                                                      event.personas.toString())
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(bottom: 5),
+                                              child: Row(
+                                                children: [
+                                                  Text(
+                                                    'Estado: ',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.grey),
+                                                  ),
+                                                  Text(event.estado),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                    initiallyExpanded: false,
+                                  ),
+                                ),
+                              ))
+                        ],
+                      ),
                     )),
               ],
             ),
@@ -356,6 +461,56 @@ class _ReservasPageState extends State<ReservasPage> {
 
       case 'Rechazado':
         return Colors.red;
+        break;
+
+      case 'Anulado':
+        return Colors.black;
+        break;
+    }
+  }
+
+  String convertidorMes(String mes) {
+    switch (mes) {
+      case '1':
+        return 'Ene';
+        break;
+      case '2':
+        return "Feb";
+        break;
+
+      case '3':
+        return "Mar";
+        break;
+
+      case '4':
+        return "Abr";
+        break;
+      case '5':
+        return "May";
+        break;
+      case '6':
+        return "Jun";
+        break;
+      case '7':
+        return "Jul";
+        break;
+      case '8':
+        return "Ago";
+        break;
+      case '9':
+        return "Sep";
+        break;
+      case '10':
+        return "Oct";
+        break;
+      case '11':
+        return "Nov";
+        break;
+      case '12':
+        return "Dic";
+        break;
+      default:
+        return "Ene";
         break;
     }
   }
