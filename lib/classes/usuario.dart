@@ -21,7 +21,7 @@ class Usuario {
     this._favoritos = favoritos;
     this._image = image;
   }
-  Usuario.ini();
+  Usuario.ini(); 
 
   //Getters
   String get nombre => _nombre;

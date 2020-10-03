@@ -61,8 +61,8 @@ class _ReservasPageState extends State<ReservasPage> {
 
   @override
   Widget build(BuildContext context) {
-    String _strFecha = DateFormat('d MMM y').format(new DateTime.now());
-
+    // String _strFecha = DateFormat('d MMM y').format(new DateTime.now());
+    String _strfecha = "";
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
@@ -148,8 +148,9 @@ class _ReservasPageState extends State<ReservasPage> {
                     },
                   ),
                 ),
-                //Imprime los elementos
+                //!Imprime los elementos
                 ..._selectedEvents.map((event) =>
+
                     /* GestureDetector(
                       child: Container(
                         margin: EdgeInsets.only(left: 20, right: 20, top: 10),
@@ -324,34 +325,73 @@ class _ReservasPageState extends State<ReservasPage> {
                             });
                       },
                     ) */
+
                     Container(
                       margin: EdgeInsets.only(left: 10, right: 20, top: 10),
                       width: MediaQuery.of(context).size.width,
                       child: Row(
                         children: [
-                          Transform.rotate(
-                            angle: -1.58,
-                            child: Text(
-                                event.fecha.day.toString() +
-                                    " " +
-                                    convertidorMes(
-                                      event.fecha.month.toString(),
-                                    ),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black38,
-                                    fontWeight: FontWeight.bold)),
-                          ),
+                          _strfecha !=
+                                  event.fecha.day.toString() +
+                                      " " +
+                                      convertidorMes(
+                                        event.fecha.month.toString(),
+                                      )
+                              ? Transform.rotate(
+                                  angle: -1.58,
+                                  child: Text(
+                                      _strfecha = event.fecha.day.toString() +
+                                          " " +
+                                          convertidorMes(
+                                            event.fecha.month.toString(),
+                                          ),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black38,
+                                          fontWeight: FontWeight.bold)),
+                                )
+                              : Transform.rotate(
+                                  angle: -1.58,
+                                  child: Text(
+                                      event.fecha.day.toString() +
+                                          " " +
+                                          convertidorMes(
+                                            event.fecha.month.toString(),
+                                          ),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.transparent,
+                                          fontWeight: FontWeight.bold)),
+                                ),
                           Container(
                               width: MediaQuery.of(context).size.width - 90,
                               child: Card(
                                 child: Theme(
                                   data: ThemeData(accentColor: Colors.black),
                                   child: ExpansionTile(
-                                    title: Text(
-                                      event.restaurante.nombre,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                    title: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 3,
+                                          height: 20,
+                                          color: _estadoColores(event.estado),
+                                          margin: EdgeInsets.only(right: 20),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.7,
+                                          child: Text(
+                                            event.restaurante.nombre,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     children: [
                                       Container(
@@ -431,6 +471,86 @@ class _ReservasPageState extends State<ReservasPage> {
                                                 ],
                                               ),
                                             ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  right: 20,
+                                                  top: 10,
+                                                  bottom: 10),
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: MaterialButton(
+                                                height: 40,
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              '¿Seguro que deseas anular la reserva?'),
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                          content: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: <
+                                                                Widget>[],
+                                                          ),
+                                                          actions: <Widget>[
+                                                            FlatButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child: Text(
+                                                                "CANCELAR",
+                                                                style: TextStyle(
+                                                                    color: MyColors()
+                                                                        .colorGris),
+                                                              ),
+                                                            ),
+                                                            FlatButton(
+                                                              onPressed: () {
+                                                                event.estado =
+                                                                    "Anulado";
+                                                                setState(() {});
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop(true);
+                                                              },
+                                                              child: Text(
+                                                                "ACEPTAR",
+                                                                style: TextStyle(
+                                                                    color: MyColors()
+                                                                        .colorPrimario,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w900),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      });
+                                                },
+                                                child: Text(
+                                                  "ANULAR CITA",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16),
+                                                ),
+                                                color: MyColors().colorPrimario,
+                                                elevation: 2,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5)),
+                                              ),
+                                            )
                                           ],
                                         ),
                                       )

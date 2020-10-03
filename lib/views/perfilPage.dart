@@ -3,6 +3,7 @@ import 'package:app_reservar_horario/classes/Usuario.dart';
 import 'package:app_reservar_horario/model/Funciones.dart';
 import 'package:app_reservar_horario/pageTransactions/slideRight.dart';
 import 'package:app_reservar_horario/styles/color.dart';
+import 'package:app_reservar_horario/views/editarPerfilPage.dart';
 import 'package:app_reservar_horario/views/restauranteDetallePage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -41,7 +42,13 @@ class _PerfilPageState extends State<PerfilPage> {
                   Icons.edit,
                   color: Colors.black87,
                 ),
-                onPressed: () {}),
+                onPressed: () {
+                   Navigator.push(
+                    context,
+                    SlideRightRoute(
+                        page: EditarPerfilPage(
+                            this.widget.usuario)));
+                }),
             IconButton(
                 icon: Icon(
                   Icons.settings,
