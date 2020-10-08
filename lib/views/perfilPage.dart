@@ -36,26 +36,6 @@ class _PerfilPageState extends State<PerfilPage> {
               });
             },
           ),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.black87,
-                ),
-                onPressed: () {
-                   Navigator.push(
-                    context,
-                    SlideRightRoute(
-                        page: EditarPerfilPage(
-                            this.widget.usuario)));
-                }),
-            IconButton(
-                icon: Icon(
-                  Icons.settings,
-                  color: Colors.black87,
-                ),
-                onPressed: () {})
-          ],
         ),
         body: Container(
           child: SingleChildScrollView(
@@ -65,7 +45,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 Container(
                   margin: const EdgeInsets.only(
                       bottom: 8.0, top: 10, left: 20, right: 20),
-                  padding: EdgeInsets.only(bottom: 30, top: 20),
+                  padding: EdgeInsets.only(bottom: 20, top: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(13)),
                     boxShadow: [
@@ -83,8 +63,8 @@ class _PerfilPageState extends State<PerfilPage> {
                     children: <Widget>[
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
-                        height: 130,
-                        width: 130,
+                        height: 170,
+                        width: 170,
                         decoration: BoxDecoration(
                             border: Border.all(
                                 width: 10,
@@ -122,7 +102,31 @@ class _PerfilPageState extends State<PerfilPage> {
                             fontFamily: 'HindGuntur',
                             color: MyColors().colorGris),
                         overflow: TextOverflow.ellipsis,
-                      )
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: MaterialButton(
+                          height: 50,
+                          onPressed: () {
+                            Navigator.push(
+                                    context,
+                                    SlideRightRoute(
+                                        page: EditarPerfilPage(
+                                            this.widget.usuario)))
+                                .then((value) {
+                              setState(() {});
+                            });
+                          },
+                          child: Text(
+                            "EDITAR PERFIL",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          color: MyColors().colorPrimario,
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                        ),
+                      ),
                     ],
                   ),
                 ),

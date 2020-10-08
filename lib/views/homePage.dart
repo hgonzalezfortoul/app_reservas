@@ -10,6 +10,9 @@ import 'package:app_reservar_horario/styles/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../main.dart';
+import 'perfilPage.dart';
+import 'reservasPage.dart';
 import 'restauranteDetallePage.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   Funciones funciones = new Funciones();
   int _id = 1;
   Usuario _usuario;
+  Color _colorPrimario = MyColors().colorPrimario;
 
   var _categoria = "Mediterraneo";
 
@@ -61,7 +65,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     print("Entro home");
     return Scaffold(
-      drawer: MyCustomDrawer(_usuario),
+      drawer: myDrawer(context),
       appBar: myAppBar(),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -84,6 +88,154 @@ class _HomePageState extends State<HomePage> {
         )),
       ),
     );
+  }
+
+  Drawer myDrawer(BuildContext context) {
+    return Drawer(
+        child: Container(
+      color: _colorPrimario,
+      child: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: DrawerHeader(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  CircleAvatar(
+                    backgroundImage: AssetImage(
+                      _usuario.image,
+                    ),
+                    radius: 45,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Text(
+                      _usuario.nombre + " " + _usuario.apellido,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontFamily: 'Poppins'),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                ],
+              ),
+              decoration: BoxDecoration(
+                  color: _colorPrimario,
+                  image: DecorationImage(
+                      image: AssetImage(
+                        "assets/img/DrawerBg.png",
+                      ),
+                      fit: BoxFit.fill)),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 20),
+            child: ListTile(
+              onTap: () {
+                Navigator.pop(context, true);
+                Navigator.push(
+                        context,
+                        SlideRightRoute(
+                            page: PerfilPage(usuario: this._usuario)))
+                    .then((value) {
+                  setState(() {});
+                });
+              },
+              title: Text(
+                "Perfil",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              leading: Container(
+                child: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                  size: 22,
+                ),
+                padding: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color.fromRGBO(255, 255, 255, 0.5),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 20),
+            child: ListTile(
+              onTap: () {
+                Navigator.pop(context, true);
+
+                Navigator.push(
+                    context,
+                    SlideRightRoute(
+                        page: ReservasPage(usuario: this._usuario)));
+              },
+              title: Text(
+                "Reservas",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              leading: Container(
+                child: Icon(
+                  Icons.restaurant_menu,
+                  color: Colors.white,
+                  size: 22,
+                ),
+                padding: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color.fromRGBO(255, 255, 255, 0.5),
+                ),
+              ),
+            ),
+          ),
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.4,
+              minHeight: MediaQuery.of(context).size.height * 0.4,
+            ),
+            child: SizedBox(),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(
+              color: Colors.white70,
+              thickness: 1,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 20),
+            child: ListTile(
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => MyApp()));
+              },
+              title: Text(
+                "Cerrar sesion",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              leading: Container(
+                child: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.white,
+                  size: 22,
+                ),
+                padding: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color.fromRGBO(255, 255, 255, 0.5),
+                ),
+              ),
+            ),
+          ),
+        ]),
+      ),
+    ));
   }
 
   AppBar myAppBar() {

@@ -69,7 +69,9 @@ class _MyCustomDrawerState extends State<MyCustomDrawer> {
               onTap: () {
                 Navigator.pop(context,true);
                 Navigator.push(context,
-                    SlideRightRoute(page: PerfilPage(usuario: this.usuario)));
+                    SlideRightRoute(page: PerfilPage(usuario: this.usuario))).then((value) {
+                              setState(() {});
+                            });
               },
               title: Text(
                 "Perfil",
